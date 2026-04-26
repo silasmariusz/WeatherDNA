@@ -22,3 +22,4 @@
 ## 3. Operational Logic
 *   **Mode**: Continuous (Active WiFi)
 *   **Calculations**: Minimal (calcSLP only)
+Zgadzam siê na wszystko.
