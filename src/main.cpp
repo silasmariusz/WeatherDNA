@@ -77,163 +77,6 @@ WARNING: DO NOT MODIFY WITHOUT UNDERSTANDING THESE HARDWARE CONSTRAINTS!
 //    - I2C Auto-Healing: Hard reset of the bus if >3 sensors fail.
 //    FROM V4 VERSION BATTERY & SLEEP MODE WILL BE REMOVED 
 //
-// ======================================================================================
-*/
-
-#include <Arduino.h>
-#include <Wire.h>
-#include <WiFi.h>
-#include <WiFiUdp.h>
-#include <esp_wifi.h>
-#include <WebServer.h>
-#include <HTTPClient.h>
-#include <WiFiClientSecure.h>
-#include <ArduinoJson.h>
-#include <Preferences.h>
-#include <ESPmDNS.h>
-#include <esp_sleep.h>
-#include <ArduinoOTA.h>
-#include <esp_task_wdt.h>
-#include <Update.h>
-#include <math.h>
-#include <PubSubClient.h>
-#include <vector>
-#include "secrets.h"
-#include "driver/pcnt.h" // --- DODANO BIBLIOTEKĘ DO OBSŁUGI SPRZĘTOWEGO PCNT ---
-
-// --- SENSOR LIBRARIES ---
-#include <bsec2.h>
-/// DODAC BSEC (wersja v3.3)
-#include <Adafruit_MS8607.h>   
-#include "SparkFun_BMV080_Arduino_Library.h" 
-
-// --- NEW SENSORS ---
-#include "Adafruit_SHT4x.h"
-#include <SensirionI2CSgp41.h>
-#include <VOCGasIndexAlgorithm.h>
-#include <NOxGasIndexAlgorithm.h>
-
-// --- NEW LABORATORY SENSORS ---
-#include <SensirionI2cScd4x.h>      // NDIR CO2
-#include <Adafruit_BMP5xx.h>
-#include <ILPS22QSSensor.h>         // ILPS22QST (STM32duino)
-
-// ── ZMOD4510 Renesas SDK ── (NO2 + O3)
-// Firmware SDK: D:\Arduino\libraries\Renesas-ZMOD4510-NO2_O3-Firmware
-// precompiled=true; algo linked from lib/Espressif ESP/esp32s3/*.a
-// HAL: built-in Arduino Wire HAL (hal/arduino/arduino.cpp)
-#include "no2_o3-arduino.h"
-#include "hal/arduino/arduino_hal.h"  // for HAL_Init()
-
-
-void bme688Callback(const bme68xData data, const bsecOutputs outputs, Bsec2 bsec);
-
-// --- FORWARD DECLARATIONS ---
-bool tcaselect(uint8_t mux_addr, uint8_t i);
-
-// --- DYNAMIC I2C MUX ROUTING ---
-uint8_t MUX_BME280   = 0x70; uint8_t CH_BME280   = 2; // (0x70) - User: 0x76 @ CH2
-uint8_t MUX_BMV080   = 0x72; uint8_t CH_BMV080   = 3; // (0x72)
-uint8_t MUX_MS8607   = 0x72; uint8_t CH_MS8607   = 6; // (0x72) - [DISABLED]
-uint8_t MUX_BME688   = 0x72; uint8_t CH_BME688   = 0; // BME688 AI Waveshare na CH0
-uint8_t MUX_SHT45    = 0x72; uint8_t CH_SHT45    = 5; // (0x72)
-uint8_t MUX_SGP41    = 0x72; uint8_t CH_SGP41    = 2; // (0x72) współdzielony z SCD41
-uint8_t MUX_I2CMEM   = 0x00; uint8_t CH_I2CMEM   = 0; // Parallel on main bus
-uint8_t MUX_SCD41    = 0x72; uint8_t CH_SCD41    = 2; // shared CH2
-uint8_t MUX_BMP585   = 0x72; uint8_t CH_BMP585   = 7; // Pressure
-uint8_t MUX_ILPS     = 0x71; uint8_t CH_ILPS     = 6; // shared CH6
-// ZMOD4510 HAL is provided by the SDK's built-in Arduino HAL (hal/arduino/arduino.cpp)
-// HAL_Init() populates Wire-based callbacks automatically.
-uint8_t MUX_ZMOD4510 = 0x72; uint8_t CH_ZMOD4510 = 1; // (0x72) CH1 — I2C 0x33
-#define AS3935_IRQ_PIN 7 // [XIAO: D8] - Pin RTC dla przerwań błyskawic
-
-#define RAIN_RG15_RX 44 // [XIAO: D7] (UART RX)
-#define RAIN_RG15_TX 43 // [XIAO: D6] (UART TX)
-
-#define WDT_TIMEOUT_SECONDS 180 
-
-enum SystemMode { MODE_CONTINUOUS, MODE_DEEP_SLEEP, MODE_LIGHT_SLEEP, MODE_MAINTENANCE, MODE_RECOVERY };
-
-enum CyclePhase { PHASE_WAKEUP, PHASE_WARMUP, PHASE_READ, PHASE_PUSH_API, PHASE_SLEEP_WAIT };
-
-RTC_DATA_ATTR unsigned long dynamic_warmup_ms = 45000;
-
-const unsigned long CYCLE_DURATION_MS = 60000;
-const unsigned long WARMUP_DURATION_MS = 12000; 
-const unsigned long SENSOR_READ_INTERVAL_MS = 10000;
-
-struct BME688_Ultimate_Config { 
-    float sampleRate; 
-    float tempOffset; 
-    bool enableStateSave; 
-    uint32_t stateSavePeriodMs; 
-    const uint8_t* customAiProfile; 
-};
-
-const BME688_Ultimate_Config bme688Config = { 
-    BSEC_SAMPLE_RATE_LP, 
-    0.0f,                
-    true, 
-    (360 * 60 * 1000), 
-    bsec_config_iaq
-};
-
-// TRYB PRACY POZYSKIWANY JEST ZDALNIE Z PLIKU MODE.PHP
-// w locie
-// DOCELOWO WDROŻYĆ KONTROLER
-SystemMode currentMode = MODE_CONTINUOUS;
-CyclePhase currentPhase = PHASE_WAKEUP;
-
-// Power policy toggles
-const bool ENABLE_NIGHT_AUTO_DEEP_SLEEP = false; // force Light Sleep -> Deep Sleep at night (23:00-06:00)
-
-Preferences prefs;
-WebServer server(80);
-WiFiClient espClient;
-PubSubClient mqtt(espClient);
-std::vector<String> discovered_sensors;
-
-unsigned long cycleStartTime = 0;
-
-unsigned long lastReadTime = 0;
-unsigned long lastFastPollTime = 0;
-unsigned long lastBsecPollTime = 0;
-
-Bsec2 envSensor;                     bool bme688_ok = false;
-SparkFunBMV080 bmv080;               bool bmv080_ok = false;
-Adafruit_MS8607 ms8607;              bool ms8607_ok = false;
-DFRobot_AS3935_I2C lightning((uint8_t)AS3935_IRQ_PIN, (uint8_t)0x03); bool as3935_ok = false;
-Adafruit_BME280 bme280;              bool bme280_ok = false;
-Adafruit_SHT4x sht45;                bool sht45_ok = false;
-SensirionI2CSgp41 sgp41;             bool sgp41_ok = false;
-VOCGasIndexAlgorithm vocAlgorithm;
-NOxGasIndexAlgorithm noxAlgorithm;
-bool i2c_mem_ok = false;
-SensirionI2cScd4x scd41;             bool scd41_ok = false; bool scd41_triggered = false;
-Adafruit_BMP5xx bmp585;              bool bmp585_ok = false;
-ILPS22QSSensor ilps(&Wire);          bool ilps_ok = false;
-static zmod4xxx_dev_t   zmod4510_dev;
-static uint8_t          zmod4510_adc[ZMOD4510_ADC_DATA_LEN];
-static uint8_t          zmod4510_prod[ZMOD4510_PROD_DATA_LEN];
-static no2_o3_handle_t  zmod4510_algo_handle;
-static no2_o3_results_t zmod4510_results;
-static no2_o3_inputs_t  zmod4510_input;
-static Interface_t      zmod4510_hal;
-bool zmod4510_ok = false;
-bool zmod4510_stabilizing = false;
-
-// --- RTC MEMORY FOR ALGORITHMS ---
-RTC_DATA_ATTR float last_pressure_bmp585 = 0.0f;
-...
-
-float wu_wind_speed = 0.0f;
-float wu_wind_dir = 0.0f;
-float wu_wind_gust = 0.0f;
-bool wu_wind_fetched = false;
-unsigned long wu_wind_last_fetch = 0;
-
-
-...
 // -----------------------------------------------------------------------
 // 3. HELPERS, LOGGING & MATH
 // -----------------------------------------------------------------------
@@ -682,17 +525,6 @@ void exhaustivelyReadSensors() {
     ATLAS_LOG("\n[DATA DUMP] ---> Executing Full Sensor Read Sequence\n");
     unsigned long timer = 0;
     
-    if(bme280_ok && tcaselect(MUX_BME280, CH_BME280)) {
-        timer = millis();
-        float t = bme280.readTemperature();
-        if(!isnan(t)) {
-            payload["sensors"]["BME280_Enc_Temp"] = t;
-            payload["sensors"]["BME280_Enc_Hum"] = bme280.readHumidity();
-            payload["sensors"]["BME280_Enc_Press"] = bme280.readPressure() / 100.0F;
-            ATLAS_LOG("   |- BME280  [BMS Temp]: %.2f C | Hum: %.2f %% | Press: %.1f hPa (Took: %lu ms)\n", t, (float)payload["sensors"]["BME280_Enc_Hum"], (float)payload["sensors"]["BME280_Enc_Press"], millis()-timer);
-        } else bme280_ok = false; 
-    }
-
     if(bmv080_ok && tcaselect(MUX_BMV080, CH_BMV080)) {
         timer = millis();
         Wire.beginTransmission(0x57);
@@ -715,8 +547,8 @@ void exhaustivelyReadSensors() {
                 
                 float pm25 = bmv_data.pm2_5_mass_concentration;
                 float pm10 = bmv_data.pm10_mass_concentration;
-                int aqi = calcAQI_PM25(pm25);
-                payload["sensors"]["BMV080_EPA_AQI"] = aqi;
+                
+                
                 float pm_ratio = (pm10 > 0) ? (pm25 / pm10) * 100.0f : 0.0f;
                 payload["sensors"]["BMV080_PM_Ratio_pct"] = pm_ratio;
                 
@@ -730,8 +562,8 @@ void exhaustivelyReadSensors() {
                 if (!payload["sensors"]["BMV080_PM2_5"].isNull()) {
                     float pm25 = payload["sensors"]["BMV080_PM2_5"];
                     float pm10 = payload["sensors"]["BMV080_PM10_0"];
-                    int aqi = calcAQI_PM25(pm25);
-                    payload["sensors"]["BMV080_EPA_AQI"] = aqi;
+                    
+                    
                     float pm_ratio = (pm10 > 0) ? (pm25 / pm10) * 100.0f : 0.0f;
                     payload["sensors"]["BMV080_PM_Ratio_pct"] = pm_ratio;
                     ATLAS_LOG("   |- BMV080  [Dust]: BUFFERED - PM1.0:%.1f | PM2.5:%.1f | PM10:%.1f ug/m3 | N(2.5):%.0f/cm3 | AQI:%d | Obs:%d | OOR:%d (Took: %lu ms)\n", 
@@ -986,32 +818,7 @@ void exhaustivelyReadSensors() {
                 float wc_bio   = calcWindChill(ext_t_bio, wind_bio);
 
                 // ── Migraine Risk (multi-factor, v2.0) ──
-                float migraine_r = calcMigraineRisk(delta_3h, dp_dt,
-                    slp_bio, ext_t_bio, hum_bio, uvi_bio, voc_bio, temp_delta_3h);
-                payload["sensors"]["MED_Migraine_Risk"]    = roundf(migraine_r * 10.0f) / 10.0f;
-                payload["sensors"]["MED_Migraine_Cat"]     = getMigraineCategory(migraine_r);
-
-                // ── Rheumatological / Arthritis Risk (multi-factor, v2.0) ──
-                float rheum_r = calcRheumaticRisk(delta_3h, slp_bio, ext_t_bio,
-                    hum_bio, abs_hum, wc_bio, dp_bio);
-                payload["sensors"]["MED_Rheumatic_Risk"]   = roundf(rheum_r * 10.0f) / 10.0f;
-                payload["sensors"]["MED_Rheumatic_Cat"]    = getRheumaticCategory(rheum_r);
-
-                // ── Barometric Pain Index (Shutty 1992) ──
-                float bpi = calcBarometricPainIndex(delta_3h, dp_dt, slp_bio);
-                payload["sensors"]["MED_Baro_Pain_Index"]  = roundf(bpi * 10.0f) / 10.0f;
-
-                // ── Sinus Congestion Risk ──
-                float sinus_r = calcSinusRisk(delta_3h, hum_bio, ext_t_bio, pm25_bio);
-                payload["sensors"]["MED_Sinus_Risk"]       = roundf(sinus_r * 10.0f) / 10.0f;
-
-                // ── Overall Biometeo Sensitivity Score ──
-                float biometeo = calcBiometeoScore(migraine_r, rheum_r, bpi, sinus_r);
-                payload["sensors"]["MED_Biometeo_Score"]   = roundf(biometeo * 10.0f) / 10.0f;
-                payload["sensors"]["MED_Biometeo_Alert"]   = biometeo > 7.0f ? "HIGH" : biometeo > 4.5f ? "MODERATE" : "LOW";
-
-                ATLAS_LOG("   |- BIOMETEO: Migr:%.1f(%s) Rheum:%.1f(%s) BPI:%.1f Sinus:%.1f Score:%.1f\n",
-                    migraine_r, getMigraineCategory(migraine_r).c_str(),
+                                    migraine_r, getMigraineCategory(migraine_r).c_str(),
                     rheum_r, getRheumaticCategory(rheum_r).c_str(),
                     bpi, sinus_r, biometeo);
             }
@@ -1047,3 +854,6 @@ void exhaustivelyReadSensors() {
             }
         }
 ...
+
+
+
