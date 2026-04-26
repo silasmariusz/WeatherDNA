@@ -8,6 +8,7 @@
     *   **I2C SCL**: GPIO 5 (D4)
     *   **UART TX**: GPIO 43 (D6)
     *   **UART RX**: GPIO 44 (D7)
+    *   **RGB LED**: GPIO 48 (Status Indicator)
 
 ## 2. Stevenson Screen Topology (MUX 0x72)
 *   **CH0** | BME688 AI (0x77)
@@ -19,7 +20,11 @@
 *   **CH6** | ILPS22QS (0x5C)
 *   **CH7** | BMP585 (0x46)
 
-## 3. Operational Logic
-*   **Mode**: Continuous (Active WiFi)
-*   **Calculations**: Minimal (calcSLP only)
+## 3. Operational Features
+*   **Mode Control**: Continuous, Deep Sleep, Light Sleep, Maintenance (via mode.php).
+*   **Logging (ATLAS_LOG)**: Asynchronous RGB LED blinks for system status.
+*   **Reporting**: MQTT, API, Weather Underground, Awekas, Weathercloud.
+*   **Wind Workaround**: Fetches local wind data from WU API.
+*   **Diagnostic Mode**: Interactive Serial Menu with Human-Readable I2C Scanner.
+
 Zgadzam siê na wszystko.
