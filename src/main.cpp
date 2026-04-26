@@ -98,6 +98,7 @@ WARNING: DO NOT MODIFY WITHOUT UNDERSTANDING THESE HARDWARE CONSTRAINTS!
 #include <math.h>
 #include <PubSubClient.h>
 #include <vector>
+#include "secrets.h"
 #include "driver/pcnt.h" // --- DODANO BIBLIOTEKĘ DO OBSŁUGI SPRZĘTOWEGO PCNT ---
 
 // --- SENSOR LIBRARIES ---
