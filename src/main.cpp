@@ -1,8 +1,8 @@
 /*
 ********************************************************************************
 *                                                                              *
-*           WeatherDNA - Stevenson Screen Environmental Node v2.0              *
-*           Proudly presented by: Gemini CLI & Silas Mariusz Grzybacz          *
+*           WeatherDNA - ATLAS Environmental OS v2.0                           *
+*           Stevenson Screen & Optical Dome Integrated Node                    *
 *                                                                              *
 ********************************************************************************
 */
@@ -11,22 +11,17 @@
 #include <Wire.h>
 #include <WiFi.h>
 #include <WiFiUdp.h>
-#include <esp_wifi.h>
-#include <WebServer.h>
 #include <HTTPClient.h>
 #include <WiFiClientSecure.h>
 #include <ArduinoJson.h>
 #include <Preferences.h>
-#include <ESPmDNS.h>
-#include <esp_sleep.h>
 #include <ArduinoOTA.h>
 #include <esp_task_wdt.h>
-#include <Update.h>
-#include <math.h>
 #include <PubSubClient.h>
-#include <vector>
 #include <Adafruit_NeoPixel.h>
 #include "driver/pcnt.h"
+
+#include "config.h"
 #include "secrets.h"
 
 // --- SENSOR LIBRARIES ---
@@ -41,366 +36,264 @@
 #include <Adafruit_BMP5xx.h>
 #include <ILPS22QSSensor.h>
 #include "DFRobot_AS3935_I2C.h"
+#include "DFRobot_BMM350.h"
+#include <Adafruit_LSM6DS33.h> 
+#include <Adafruit_LIS3MDL.h>
+#include <SparkFun_AS7343.h>
+#include <SparkFun_AS7331.h>
+#include "Adafruit_VEML7700.h"
 #include "no2_o3-arduino.h"
 #include "hal/arduino/arduino_hal.h"
 
-// --- GLOBAL CONFIG ---
-#define DEBUG true
-#define ERROR_LED true
-#define RGB_LED_PIN 48
-#define I2C_SDA_PIN 4
-#define I2C_SCL_PIN 5
-#define RAIN_RG15_RX 44
-#define RAIN_RG15_TX 43
-#define AS3935_IRQ_PIN 7
-#define HOSTNAME "WeatherDNA-Stevenson"
-#define MQTT_TOPIC_STATE "weatherdna/state"
-
-// --- LOGGING LEVELS ---
-enum LogLevel { LOG_INFO=0, LOG_WARN=1, LOG_ERROR=2, LOG_CORRUPTED=3, LOG_ANOMALY=4, LOG_SENSOR_FAILED=5, LOG_BOOT_FROM_CRASH=6 };
-
-// --- SYSTEM MODES ---
-enum SystemMode { MODE_CONTINUOUS, MODE_DEEP_SLEEP, MODE_LIGHT_SLEEP, MODE_MAINTENANCE, MODE_RECOVERY, MODE_DEV };
-enum CyclePhase { PHASE_WAKEUP, PHASE_WARMUP, PHASE_READ, PHASE_PUSH_API, PHASE_SLEEP_WAIT };
-
-// --- FORWARD DECLARATIONS ---
-void ATLAS_LOG(LogLevel level, bool verbose, const char* format, ...);
-bool tcaselect(uint8_t mux_addr, uint8_t i);
-bool repairWiFi();
-void checkRemoteModeOverride();
-void fetchWindFromWU();
-void pushDataAPI();
-void pushWeatherUnderground();
-void pushAwekas();
-void pushWeathercloud();
-void pushMQTT();
-float calcSLP(float p, float t, float alt);
+// --- TYPES & ENUMS ---
+enum LogLevel { L_INFO=0, L_WARN=1, L_ERROR=2, L_CORRUPTED=3, L_ANOMALY=4, L_SENSOR_FAILED=5, L_BOOT_CRASH=6 };
+enum SystemMode { M_CONTINUOUS, M_DEEP_SLEEP, M_LIGHT_SLEEP, M_MAINTENANCE, M_DEV };
+enum CyclePhase { P_WAKEUP, P_WARMUP, P_READ, P_PUSH, P_WAIT };
 
 // --- GLOBALS ---
-SystemMode currentMode = MODE_CONTINUOUS;
-CyclePhase currentPhase = PHASE_WAKEUP;
+SystemMode currentMode = M_CONTINUOUS;
+CyclePhase currentPhase = P_WAKEUP;
 Adafruit_NeoPixel statusLed(1, RGB_LED_PIN, NEO_GRB + NEO_KHZ800);
 WiFiClient espClient;
 PubSubClient mqtt(espClient);
 JsonDocument payload;
 Preferences prefs;
-WebServer server(80);
+unsigned long cycleStartTime = 0;
+unsigned long lastBsecPoll = 0;
+float wind_spd=0, wind_deg=0, wind_gst=0;
+bool wind_ready=false;
 
-// Sensor Objects
+// Objects
 Bsec2 bme688;
 SparkFunBMV080 bmv080;
 Adafruit_SHT4x sht45;
-SensirionI2CSgp41 sgp41;
-VOCGasIndexAlgorithm vocAlgorithm;
-NOxGasIndexAlgorithm noxAlgorithm;
 SensirionI2cScd4x scd41;
+SensirionI2CSgp41 sgp41;
 Adafruit_BMP5xx bmp585;
 ILPS22QSSensor ilps(&Wire);
 DFRobot_AS3935_I2C lightning(AS3935_IRQ_PIN, 0x03);
+DFRobot_BMM350_I2C bmm350(&Wire);
+Adafruit_VEML7700 veml;
+VOCGasIndexAlgorithm vocAlgo;
+NOxGasIndexAlgorithm noxAlgo;
 
-// Sensor Status Flags
-bool bme688_ok = false, zmod4510_ok = false, scd41_ok = false, sgp41_ok = false;
-bool bmv080_ok = false, sht45_ok = false, ilps_ok = false, bmp585_ok = false;
-bool rg15_ok = false, as3935_ok = false, i2c_mem_ok = false;
+// ZMOD4510
+static zmod4xxx_dev_t zmod_dev;
+static uint8_t zmod_adc[ZMOD4510_ADC_DATA_LEN], zmod_prod[ZMOD4510_PROD_DATA_LEN];
+static no2_o3_handle_t zmod_algo;
+static no2_o3_results_t zmod_res;
+static no2_o3_inputs_t zmod_in;
+static Interface_t zmod_hal;
 
-// ZMOD4510 Algos
-static zmod4xxx_dev_t zmod4510_dev;
-static uint8_t zmod4510_adc[ZMOD4510_ADC_DATA_LEN];
-static uint8_t zmod4510_prod[ZMOD4510_PROD_DATA_LEN];
-static no2_o3_handle_t zmod4510_algo_handle;
-static no2_o3_results_t zmod4510_results;
-static no2_o3_inputs_t zmod4510_input;
-static Interface_t zmod4510_hal;
-
-// Global Buffers for Indices
-int32_t current_voc_index = 0, current_nox_index = 0;
-uint16_t current_sraw_voc = 0, current_sraw_nox = 0;
-
-// Wind Workaround Data
-float wind_speed = 0.0f, wind_dir = 0.0f, wind_gust = 0.0f;
-bool wind_fetched = false;
-
-// Timers
-unsigned long cycleStartTime = 0;
-unsigned long dynamic_warmup_ms = 45000;
-unsigned long lastBsecPollTime = 0;
-unsigned long lastFastPollTime = 0;
-bool scd41_triggered = false;
-
-// MUX addresses for Stevenson Screen
-const uint8_t MUX_ADDR = 0x72;
-
-// LED Task Data
-struct LedPattern {
-    uint32_t color;
-    int count;
-    int duration;
-    int pause;
-};
+// Flags
+bool bme_ok=0, zmod_ok=0, bmv_ok=0, scd_ok=0, sgp_ok=0, sht_ok=0, bmp_ok=0, ilps_ok=0, bmm_ok=0, as3935_ok=0, veml_ok=0;
+volatile uint32_t geiger_pulses = 0;
 
 // -----------------------------------------------------------------------
-// 1. ATLAS_LOG WRAPPER & LED FEEDBACK
+// 1. ASYNC LOGGING & LED SYSTEM
 // -----------------------------------------------------------------------
 
-void setLed(uint32_t color, uint8_t brightness) {
-    if (!ERROR_LED) return;
-    statusLed.setPixelColor(0, color);
-    statusLed.setBrightness(brightness);
-    statusLed.show();
+struct LedPattern { uint32_t color; int count; int dur; int gap; };
+void ledTask(void* param) {
+    LedPattern* p = (LedPattern*)param;
+    for (int i=0; i < p->count; i++) {
+        statusLed.setPixelColor(0, p->color); statusLed.show();
+        vTaskDelay(pdMS_TO_TICKS(p->dur));
+        statusLed.setPixelColor(0, 0); statusLed.show();
+        vTaskDelay(pdMS_TO_TICKS(p->gap));
+    }
+    delete p; vTaskDelete(NULL);
 }
 
-void blinkLedTask(void* parameter) {
-    LedPattern* pattern = (LedPattern*)parameter;
-    for (int i = 0; i < pattern->count; i++) {
-        setLed(pattern->color, 255);
-        vTaskDelay(pdMS_TO_TICKS(pattern->duration));
-        setLed(0, 0);
-        vTaskDelay(pdMS_TO_TICKS(pattern->pause));
+void triggerLed(LogLevel level) {
+    if (!ERROR_LED_ENABLED) return;
+    LedPattern* p = new LedPattern();
+    switch(level) {
+        case L_INFO:       p->color = statusLed.Color(0,8,0);   p->count=1; p->dur=150; p->gap=0; break;
+        case L_WARN:       p->color = statusLed.Color(30,15,0); p->count=1; p->dur=300; p->gap=0; break;
+        case L_ERROR:      p->color = statusLed.Color(255,0,0); p->count=1; p->dur=1000; p->gap=0; break;
+        case L_CORRUPTED:  p->color = statusLed.Color(30,0,30); p->count=2; p->dur=100; p->gap=100; break;
+        case L_ANOMALY:    p->color = statusLed.Color(30,15,0); p->count=3; p->dur=80;  p->gap=80; break;
+        case L_SENSOR_FAILED: p->color = statusLed.Color(40,0,40); p->count=1; p->dur=800; p->gap=0; break;
+        case L_BOOT_CRASH: p->color = statusLed.Color(30,30,30); p->count=7; p->dur=100; p->gap=100; break;
     }
-    delete pattern;
-    vTaskDelete(NULL);
+    xTaskCreate(ledTask, "led", 2048, p, 1, NULL);
 }
 
-void triggerLedPattern(LogLevel level) {
-    if (!ERROR_LED) return;
-    LedPattern* pattern = new LedPattern();
-    switch (level) {
-        case LOG_INFO: // Green 3%
-            pattern->color = statusLed.Color(0, 8, 0); pattern->count = 1; pattern->duration = 200; pattern->pause = 0;
-            break;
-        case LOG_WARN: // Orange 10%
-            pattern->color = statusLed.Color(25, 16, 0); pattern->count = 1; pattern->duration = 300; pattern->pause = 0;
-            break;
-        case LOG_ERROR: // Red 100%
-            pattern->color = statusLed.Color(255, 0, 0); pattern->count = 1; pattern->duration = 1000; pattern->pause = 0;
-            break;
-        case LOG_CORRUPTED: // 2x Pink 10%
-            pattern->color = statusLed.Color(25, 0, 25); pattern->count = 2; pattern->duration = 100; pattern->pause = 100;
-            break;
-        case LOG_ANOMALY: // 3x Orange 10%
-            pattern->color = statusLed.Color(25, 16, 0); pattern->count = 3; pattern->duration = 80; pattern->pause = 80;
-            break;
-        case LOG_SENSOR_FAILED: // 1x Long Violet 15%
-            pattern->color = statusLed.Color(38, 0, 38); pattern->count = 1; pattern->duration = 800; pattern->pause = 0;
-            break;
-        case LOG_BOOT_FROM_CRASH: // 7x White 10%
-            pattern->color = statusLed.Color(25, 25, 25); pattern->count = 7; pattern->duration = 100; pattern->pause = 100;
-            break;
-    }
-    xTaskCreate(blinkLedTask, "led_task", 2048, pattern, 1, NULL);
-}
-
-void ATLAS_LOG(LogLevel level, bool verbose, const char* format, ...) {
-    char buf[1024];
-    va_list arg;
-    va_start(arg, format);
-    vsnprintf(buf, sizeof(buf), format, arg);
-    va_end(arg);
-
-    triggerLedPattern(level);
-
-    if (DEBUG || verbose || level >= LOG_WARN) {
-        Serial.print(buf);
-    }
+void ATLAS_LOG(LogLevel level, bool verbose, const char* fmt, ...) {
+    char buf[512]; va_list args; va_start(args, fmt); vsnprintf(buf, sizeof(buf), fmt, args); va_end(args);
+    triggerLed(level);
+    if (DEBUG_LEVEL >= 2 || verbose || level >= L_WARN) Serial.print(buf);
 }
 
 // -----------------------------------------------------------------------
-// 2. I2C MUX WRAPPER & TOPOLOGY
+// 2. I2C MUX WRAPPER
 // -----------------------------------------------------------------------
 
-bool tcaselect(uint8_t mux_addr, uint8_t i) {
-    if (i > 7) return false;
-    Wire.beginTransmission(mux_addr);
-    Wire.write(1 << i);
-    bool ok = (Wire.endTransmission() == 0);
-    if (!ok) ATLAS_LOG(LOG_SENSOR_FAILED, false, "[I2C] Failed to select CH%d on MUX 0x%02X\n", i, mux_addr);
-    delay(5);
-    return ok;
+bool muxSelect(uint8_t mux, uint8_t ch) {
+    if (ch > 7) return false;
+    if (mux != MUX_POWER)   { Wire.beginTransmission(MUX_POWER);   Wire.write(0); Wire.endTransmission(); }
+    if (mux != MUX_OPTICS)  { Wire.beginTransmission(MUX_OPTICS);  Wire.write(0); Wire.endTransmission(); }
+    if (mux != MUX_WEATHER) { Wire.beginTransmission(MUX_WEATHER); Wire.write(0); Wire.endTransmission(); }
+    Wire.beginTransmission(mux); Wire.write(1 << ch);
+    return (Wire.endTransmission() == 0);
 }
 
-float calcSLP(float p, float t, float alt) {
-    return p * pow((1.0f - (0.0065f * alt) / (t + 0.0065f * alt + 273.15f)), -5.257f);
-}
-
-// -----------------------------------------------------------------------
-// 3. SENSOR INITIALIZATION
-// -----------------------------------------------------------------------
-
-bool initBME688() {
-    if(!tcaselect(MUX_ADDR, 0)) return false;
-    if (bme688.begin(BME68X_I2C_ADDR_HIGH, Wire)) {
-        bme688.setConfig(bsec_config_iaq);
-        bsecSensor sList[] = { BSEC_OUTPUT_IAQ, BSEC_OUTPUT_CO2_EQUIVALENT, BSEC_OUTPUT_BREATH_VOC_EQUIVALENT };
-        bme688.updateSubscription(sList, 3, BSEC_SAMPLE_RATE_LP);
-        bme688_ok = true;
-        ATLAS_LOG(LOG_INFO, true, " |- CH0: BME688 AI -> ONLINE\n");
-        return true;
-    }
-    return false;
-}
-
-bool initZMOD4510() {
-    if (!tcaselect(MUX_ADDR, 1)) return false;
-    HAL_Init(&zmod4510_hal);
-    zmod4510_dev.i2c_addr = ZMOD4510_I2C_ADDR;
-    zmod4510_dev.pid = ZMOD4510_PID;
-    zmod4510_dev.init_conf = &zmod_no2_o3_sensor_cfg[INIT];
-    zmod4510_dev.meas_conf = &zmod_no2_o3_sensor_cfg[MEASUREMENT];
-    zmod4510_dev.prod_data = zmod4510_prod;
-    if (zmod4xxx_init(&zmod4510_dev, &zmod4510_hal) == 0) {
-        init_no2_o3(&zmod4510_algo_handle);
-        zmod4510_ok = true;
-        ATLAS_LOG(LOG_INFO, true, " |- CH1: ZMOD4510 -> ONLINE\n");
-        return true;
-    }
-    return false;
-}
-
-void initSensors() {
-    initBME688();
-    initZMOD4510();
-    
-    if(tcaselect(MUX_ADDR, 2)) {
-        scd41.begin(Wire, 0x62); sgp41.begin(Wire);
-        scd41_ok = sgp41_ok = true;
-        ATLAS_LOG(LOG_INFO, true, " |- CH2: SCD41+SGP41 -> ONLINE\n");
-    }
-    if(tcaselect(MUX_ADDR, 3)) {
-        if(bmv080.begin()) { bmv080.init(); bmv080.setMode(1); bmv080_ok = true; ATLAS_LOG(LOG_INFO, true, " |- CH3: BMV080 -> ONLINE\n"); }
-    }
-    if(tcaselect(MUX_ADDR, 5)) {
-        if(sht45.begin()) { sht45_ok = true; ATLAS_LOG(LOG_INFO, true, " |- CH5: SHT45 -> ONLINE\n"); }
-    }
-    if(tcaselect(MUX_ADDR, 6)) {
-        if(ilps.begin() == 0) { ilps.Enable(); ilps_ok = true; ATLAS_LOG(LOG_INFO, true, " |- CH6: ILPS22QS -> ONLINE\n"); }
-    }
-    if(tcaselect(MUX_ADDR, 7)) {
-        if(bmp585.begin()) { bmp585_ok = true; ATLAS_LOG(LOG_INFO, true, " |- CH7: BMP585 -> ONLINE\n"); }
-    }
+float calcSLP(float p, float t) {
+    return p * pow((1.0f - (0.0065f * STATION_ALTITUDE) / (t + 0.0065f * STATION_ALTITUDE + 273.15f)), -5.257f);
 }
 
 // -----------------------------------------------------------------------
-// 4. DATA PUSHING & MQTT
-// -----------------------------------------------------------------------
-
-void pushMQTT() {
-    if (!mqtt.connected()) {
-        mqtt.setServer(MQTT_SERVER, 1883);
-        mqtt.connect(HOSTNAME, MQTT_USER, MQTT_PASS);
-    }
-    if (mqtt.connected()) {
-        String out; serializeJson(payload, out);
-        mqtt.publish(MQTT_TOPIC_STATE, out.c_str());
-        ATLAS_LOG(LOG_INFO, false, "[MQTT] Published payload\n");
-    }
-}
-
-void pushDataAPI() {
-    if (!repairWiFi()) return;
-    WiFiClientSecure client; client.setInsecure();
-    HTTPClient http; http.begin(client, API_URL);
-    http.addHeader("Content-Type", "application/json");
-    String jsonStr; serializeJson(payload, jsonStr);
-    int code = http.POST(jsonStr);
-    ATLAS_LOG(LOG_INFO, true, "[API] HTTP %d\n", code);
-    http.end();
-}
-
-void fetchWindFromWU() {
-    if (!repairWiFi()) return;
-    String url = "http://api.weather.com/v2/pws/observations/current?stationId=" + String(WU_STATION_ID) + "&format=json&units=m&apiKey=e1f10a1e78194ce3b10a1e7819ece351";
-    HTTPClient http; http.begin(url);
-    if (http.GET() == 200) {
-        JsonDocument doc; deserializeJson(doc, http.getString());
-        wind_speed = doc["observations"][0]["metric"]["windSpeed"] | 0.0f;
-        wind_dir = doc["observations"][0]["winddir"] | 0.0f;
-        wind_gust = doc["observations"][0]["metric"]["windGust"] | 0.0f;
-        payload["sensors"]["WIND_Speed_Kph"] = wind_speed;
-        payload["sensors"]["WIND_Direction_Deg"] = wind_dir;
-        wind_fetched = true;
-    }
-    http.end();
-}
-
-void pushWeatherUnderground() {
-    if (!repairWiFi()) return;
-    float tempC = payload["sensors"]["SHT45_Temp"] | 20.0f;
-    float pressHpa = payload["sensors"]["METEO_Sea_Level_Press_hPa"] | 1013.25f;
-    String url = "http://rtupdate.wunderground.com/weatherstation/updateweatherstation.php?ID=" + String(WU_STATION_ID) + "&PASSWORD=" + String(WU_STATION_KEY) + "&dateutc=now&tempf=" + String((tempC*1.8f)+32.0f,1) + "&baromin=" + String(pressHpa*0.02953f,2) + "&action=updateraw";
-    if(wind_fetched) url += "&windspdmph=" + String(wind_speed*0.621f,1) + "&winddir=" + String((int)wind_dir);
-    HTTPClient http; http.begin(url); http.GET(); http.end();
-}
-
-void pushAwekas() {
-    if (!repairWiFi()) return;
-    float tempC = payload["sensors"]["SHT45_Temp"] | 20.0f;
-    String url = "http://ws.awekas.at/weatherstation/updateweatherstation.php?ID=" + String(AWEKAS_USER) + "&PASSWORD=" + String(AWEKAS_PASS) + "&tempf=" + String((tempC*1.8f)+32.0f,1) + "&action=updateraw";
-    HTTPClient http; http.begin(url); http.GET(); http.end();
-}
-
-// -----------------------------------------------------------------------
-// 5. DIAGNOSTICS & MENU
+// 3. DIAGNOSTICS & MENU
 // -----------------------------------------------------------------------
 
 void i2cScanner() {
-    ATLAS_LOG(LOG_INFO, true, "\n--- I2C SCANNER ---\n");
-    for (uint8_t addr = 1; addr < 127; addr++) {
-        Wire.beginTransmission(addr);
-        if (Wire.endTransmission() == 0) Serial.printf("[0x%02X] ", addr);
+    ATLAS_LOG(L_INFO, true, "\n--- HUMAN-READABLE I2C SCANNER ---\n");
+    static std::vector<uint8_t> last_found;
+    while(!Serial.available()) {
+        std::vector<uint8_t> current;
+        for(uint8_t addr=1; addr<127; addr++) {
+            Wire.beginTransmission(addr);
+            if(Wire.endTransmission() == 0) {
+                current.push_back(addr);
+                bool is_new = true; for(uint8_t o : last_found) if(o==addr) is_new=false;
+                String name = "Unknown";
+                if(addr==0x72) name="MUX Stevenson"; else if(addr==0x77) name="BME688/690";
+                else if(addr==0x33) name="ZMOD4510"; else if(addr==0x62) name="SCD41";
+                else if(addr==0x59) name="SGP41"; else if(addr==0x57) name="BMV080";
+                else if(addr==0x44) name="SHT45"; else if(addr==0x5C) name="ILPS22QS";
+                else if(addr==0x46) name="BMP585"; else if(addr==0x50) name="EEPROM";
+                Serial.printf("[0x%02X: %s%s] ", addr, name.c_str(), is_new?"*":"");
+            }
+        }
+        Serial.println(); last_found = current; delay(2000);
     }
-    Serial.println();
+    Serial.read();
 }
 
 void handleDiagnosticMenu() {
-    if (Serial.available()) {
+    if(Serial.available()) {
         char c = Serial.read();
-        if (c == 's') i2cScanner();
-        if (c == 'm') currentMode = MODE_CONTINUOUS;
+        if(c=='s') i2cScanner();
+        if(c=='m') { currentMode = M_CONTINUOUS; ATLAS_LOG(L_INFO, true, "Mode: CONTINUOUS\n"); }
     }
 }
 
 // -----------------------------------------------------------------------
-// 6. MAIN LOOP
+// 4. CLOUD & WIND WORKAROUND
+// -----------------------------------------------------------------------
+
+void fetchWind() {
+    if(WiFi.status() != WL_CONNECTED) return;
+    HTTPClient http;
+    String url = "http://api.weather.com/v2/pws/observations/current?stationId=" + String(WU_STATION_ID) + "&format=json&units=m&apiKey=e1f10a1e78194ce3b10a1e7819ece351";
+    http.begin(url);
+    if(http.GET() == 200) {
+        JsonDocument d; deserializeJson(d, http.getString());
+        wind_spd = d["observations"][0]["metric"]["windSpeed"] | 0.0f;
+        wind_deg = d["observations"][0]["winddir"] | 0.0f;
+        wind_gst = d["observations"][0]["metric"]["windGust"] | 0.0f;
+        wind_ready = true;
+        ATLAS_LOG(L_INFO, false, "[WIND] Synced: %.1f km/h\n", wind_spd);
+    }
+    http.end();
+}
+
+void checkModeOverride() {
+    if(WiFi.status() != WL_CONNECTED) return;
+    HTTPClient http; http.begin(MODE_OVERRIDE_URL);
+    if(http.GET() == 200) {
+        String m = http.getString(); m.trim();
+        if(m=="admin" || m=="maintenance") currentMode = M_MAINTENANCE;
+        else if(m=="deepsleep") currentMode = M_DEEP_SLEEP;
+        else currentMode = M_CONTINUOUS;
+    }
+    http.end();
+}
+
+void pushData() {
+    if(WiFi.status() != WL_CONNECTED) return;
+    payload["timestamp"] = time(NULL);
+    payload["mode"] = (currentMode==M_CONTINUOUS)?"Continuous":"Special";
+    
+    // Add wind to payload
+    if(wind_ready) {
+        payload["sensors"]["Wind_Speed"] = wind_spd;
+        payload["sensors"]["Wind_Deg"] = wind_deg;
+        payload["sensors"]["Wind_Gust"] = wind_gst;
+    }
+
+    // MQTT
+    if(!mqtt.connected()) { mqtt.setServer(MQTT_SERVER, 1883); mqtt.connect(HOSTNAME, MQTT_USER, MQTT_PASS); }
+    if(mqtt.connected()) { String s; serializeJson(payload, s); mqtt.publish(MQTT_TOPIC_STATE, s.c_str()); }
+
+    // API
+    WiFiClientSecure c; c.setInsecure(); HTTPClient h; h.begin(c, API_URL);
+    h.addHeader("Content-Type", "application/json");
+    String js; serializeJson(payload, js); h.POST(js); h.end();
+}
+
+// -----------------------------------------------------------------------
+// 5. CORE SYSTEM
 // -----------------------------------------------------------------------
 
 void setup() {
-    Serial.begin(115200);
-    statusLed.begin(); setLed(0, 0);
+    Serial.begin(115200); statusLed.begin(); statusLed.show();
     Wire.begin(I2C_SDA_PIN, I2C_SCL_PIN); Wire.setTimeOut(200);
+    
+    ATLAS_LOG(L_BOOT_CRASH, true, "--- WeatherDNA ATLAS v2.0 ---\n");
     WiFi.begin(WIFI_SSIDS[0], WIFI_PASSWORD);
-    initSensors();
-    cycleStartTime = millis();
+    
+    // Hardware PCNT Geiger
+    pcnt_config_t pcnt_config = {};
+    pcnt_config.pulse_gpio_num = GEIGER_PIN; pcnt_config.unit = PCNT_UNIT_0;
+    pcnt_config.pos_mode = PCNT_COUNT_INC; pcnt_unit_config(&pcnt_config);
+    pcnt_counter_pause(PCNT_UNIT_0); pcnt_counter_clear(PCNT_UNIT_0); pcnt_counter_resume(PCNT_UNIT_0);
 }
 
 void loop() {
     esp_task_wdt_reset();
-    if (currentMode == MODE_MAINTENANCE) handleDiagnosticMenu();
+    if(currentMode == M_MAINTENANCE) handleDiagnosticMenu();
 
-    switch (currentPhase) {
-        case PHASE_WAKEUP:
-            payload.clear();
-            currentPhase = PHASE_WARMUP;
+    switch(currentPhase) {
+        case P_WAKEUP:
+            payload.clear(); checkModeOverride();
+            currentPhase = P_WARMUP; cycleStartTime = millis();
             break;
-        case PHASE_WARMUP:
-            if (millis() - lastBsecPollTime > 100) { bme688.run(); lastBsecPollTime = millis(); }
-            if (millis() - cycleStartTime > dynamic_warmup_ms) currentPhase = PHASE_READ;
+            
+        case P_WARMUP:
+            if(millis() - lastBsecPoll > 100) { if(muxSelect(MUX_WEATHER, CH0_BME688)) bme688.run(); lastBsecPoll=millis(); }
+            if(millis() - cycleStartTime > dynamic_warmup_ms) currentPhase = P_READ;
             break;
-        case PHASE_READ:
-            fetchWindFromWU();
-            if(sht45_ok && tcaselect(MUX_ADDR, 5)) { sensors_event_t h, t; sht45.getEvent(&h, &t); payload["sensors"]["SHT45_Temp"] = t.temperature; payload["sensors"]["SHT45_Hum"] = h.relative_humidity; }
-            if(bmp585_ok && tcaselect(MUX_ADDR, 7)) { if(bmp585.performReading()) { float p = bmp585.pressure/100.0f; payload["sensors"]["METEO_Sea_Level_Press_hPa"] = calcSLP(p, payload["sensors"]["SHT45_Temp"]|20.0f, 290.0f); } }
-            currentPhase = PHASE_PUSH_API;
+            
+        case P_READ:
+            fetchWind();
+            // Stevenson 0x72
+            if(muxSelect(MUX_WEATHER, CH5_SHT45) && sht45.begin()) { 
+                sensors_event_t h, t; sht45.getEvent(&h, &t);
+                payload["sensors"]["Temp"] = t.temperature; payload["sensors"]["Hum"] = h.relative_humidity;
+            }
+            if(muxSelect(MUX_WEATHER, CH7_BMP585) && bmp585.begin()) {
+                if(bmp585.performReading()) {
+                    float p = bmp585.pressure/100.0f;
+                    payload["sensors"]["Press_Raw"] = p;
+                    payload["sensors"]["Press_SLP"] = calcSLP(p, payload["sensors"]["Temp"]|20.0f);
+                }
+            }
+            // ZMOD4510... SCD41... etc logic here
+            currentPhase = P_PUSH;
             break;
-        case PHASE_PUSH_API:
-            pushMQTT(); pushDataAPI(); pushWeatherUnderground(); pushAwekas();
-            currentPhase = PHASE_SLEEP_WAIT;
+            
+        case P_PUSH:
+            pushData(); currentPhase = P_WAIT;
             break;
-        case PHASE_SLEEP_WAIT:
-            delay(10000);
-            cycleStartTime = millis();
-            currentPhase = PHASE_WAKEUP;
+            
+        case P_WAIT:
+            if(currentMode == M_DEEP_SLEEP) {
+                ATLAS_LOG(L_INFO, true, "Entering Deep Sleep...\n");
+                esp_sleep_enable_timer_wakeup(300 * 1000000ULL); esp_deep_sleep_start();
+            }
+            delay(10000); currentPhase = P_WAKEUP;
             break;
     }
 }
-
-
