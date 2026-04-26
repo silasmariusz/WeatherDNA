@@ -1,47 +1,28 @@
-# AirSense2 Project for AI Coding Agents
+# AirSense2 / WeatherDNA Project - Agent Instructions
 
-This project is an Arduino-based air quality monitoring system using an ESP32S3 microcontroller, managed with PlatformIO. It integrates various sensors for environmental data collection and employs different power management modes to optimize battery life.
+This project is a high-end environmental monitoring system ("ATLAS Environmental OS") based on the ESP32-S3. It uses a triple-MUX I2C topology and Bosch BSEC3 AI for professional-grade air quality analytics.
 
-## How to build
+## 🛠️ Mandatory Architectural Pacts (SKILL.md Compliance)
 
-This project uses PlatformIO. To build the project, run the following command in the terminal:
-```bash
-platformio run -e seeed_xiao_esp32s3
-```
+### 1. I2C MUX Hygiene (Rule 4.1)
+All sensors are behind TCA9548A multiplexers. 
+- **NAKAZ:** Every `muxSelect()` call must be followed by a **5ms delay** to stabilize bus capacitance.
+- **NAKAZ:** The `main.cpp` wrapper `muxSelect()` implements this automatically. Use it.
 
-## Important Considerations
+### 2. BSEC3 AI Engine (Rule 7)
+The Bosch BSEC3 library manages the BME690.
+- **Timing:** BSEC3 is time-critical. The `loop()` must prioritize `runBSEC3()` and respect `next_call`.
+- **Persistence:** AI learning states (BaseLine) must be saved to/loaded from the **I2C EEPROM (0x50)**. Failure to do so will reset sensor calibration on every reboot.
 
-The `src/main.cpp` file contains critical notes regarding the core architecture, power management, and sensor classifications. It is crucial to review these notes before making any modifications to the code.
+### 3. BMV080 Dust Sensor (Rule 6)
+- **Life-Cycle:** The laser has a limited lifespan. It must be `startMeasurement()` during `P_WARMUP` and `stopMeasurement()` after data push.
+- **Clock Stretching:** I2C timeout is globally set to **200ms** to accommodate BMV080's heavy internal processing.
 
-## Project Structure
+### 4. Diagnostics (Rule 5.2)
+- **Logowanie:** Use `ATLAS_LOG(level, verbose, fmt, ...)` exclusively.
+- **Signaling:** Visual feedback is handled asynchronosuly via FreeRTOS `ledTask`. Do not use blocking `delay()` for LED patterns.
 
-- `src/main.cpp`: Main application logic, sensor integration, and power management.
-- `platformio.ini`: PlatformIO project configuration and dependency management.
-- `docs/`: Contains detailed documentation for the project, including system architecture and data interpretation.
-- `partitions.csv`: Custom partition table for the ESP32S3.
-
-## Key Files and Directories
-
-- `src/main.cpp`: The heart of the application.
-- `platformio.ini`: Build configuration and library dependencies.
-- `docs/EN_System_Architecture.md`: System architecture documentation.
-
-## Libraries
-
-The project uses several custom and external libraries. Custom libraries are located in `d:/Arduino/libraries.def/bsec_v3-3-0-0` and `d:/Arduino/libraries`.
-
-## Versioning
-
-This project uses conventional commits for easy versioning. Use commit messages like:
-- `feat: add new feature` for new features (minor version bump)
-- `fix: resolve bug` for bug fixes (patch version bump)
-- `BREAKING CHANGE: description` for breaking changes (major version bump)
-
-The release-please GitHub Action automatically creates releases and tags based on these commits.
-
-## AI Agent / Skill Usage
-
-Use the AirSense2 Copilot skill when editing firmware, troubleshooting I2C routing, or working with BME690/BSEC, BMV080, ZMOD4510, and other multiplexed sensors.
-
-- Skill path: `.github/skills/airsense2/SKILL.md`
-- Trigger via Copilot Chat by asking for AirSense2 firmware guidance, I2C mux handling, sensor integration, or debugging support.
+## 🚀 Deployment Standard
+- **OTA Target:** 10.100.200.18
+- **Board:** ESP32-S3 DevKitC-1 (N16R8)
+- **Framework:** Arduino / PlatformIO
