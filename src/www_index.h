@@ -1,4 +1,4 @@
-﻿#ifndef WWW_INDEX_H
+#ifndef WWW_INDEX_H
 #define WWW_INDEX_H
 
 #include <Arduino.h>
@@ -25,10 +25,10 @@ const char index_html[] PROGMEM = R"rawliteral(
         radial-gradient(ellipse at 85% 85%,rgba(100,80,200,.08) 0%,transparent 50%);
         color:var(--text);font-family:'Inter',-apple-system,sans-serif;
         overflow:hidden;height:100vh}
-    /* â”€â”€ Desktop â”€â”€ */
+    /* ── Desktop ── */
     #desktop{position:relative;width:100%;height:calc(100vh - 56px);padding:14px;
         overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch}
-    /* â”€â”€ Dock â”€â”€ */
+    /* ── Dock ── */
     .dock{position:fixed;bottom:10px;left:50%;transform:translateX(-50%);
         height:50px;background:rgba(18,18,30,.88);backdrop-filter:blur(24px);
         -webkit-backdrop-filter:blur(24px);border-radius:16px;
@@ -40,7 +40,7 @@ const char index_html[] PROGMEM = R"rawliteral(
         transition:all .18s cubic-bezier(.34,1.56,.64,1)}
     .dock-item:hover{transform:translateY(-5px) scale(1.1);color:var(--text);background:rgba(255,255,255,.07)}
     .dock-item.active{color:var(--accent);background:rgba(0,212,170,.15)}
-    /* â”€â”€ Glass Window â”€â”€ */
+    /* ── Glass Window ── */
     .window{position:absolute;background:var(--glass);backdrop-filter:blur(28px) saturate(170%);
         -webkit-backdrop-filter:blur(28px) saturate(170%);border:1px solid var(--glass-border);
         border-radius:14px;box-shadow:0 14px 44px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.06);
@@ -60,14 +60,14 @@ const char index_html[] PROGMEM = R"rawliteral(
     .win-content{padding:14px;overflow-y:auto;flex:1;min-height:0}
     .win-content::-webkit-scrollbar{width:5px}
     .win-content::-webkit-scrollbar-thumb{background:rgba(255,255,255,.14);border-radius:3px}
-    /* â”€â”€ Cards â”€â”€ */
+    /* ── Cards ── */
     .card{background:rgba(255,255,255,.035);border-radius:12px;padding:13px;
         margin-bottom:10px;border:1px solid var(--glass-border)}
     .card-title{font-size:10px;font-weight:700;color:var(--text-muted);text-transform:uppercase;
         letter-spacing:.8px;margin-bottom:9px;display:flex;align-items:center;gap:5px}
     .card-2col{display:grid;grid-template-columns:1fr 1fr;gap:9px}
     .card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:7px}
-    /* â”€â”€ Sensor Tile â”€â”€ */
+    /* ── Sensor Tile ── */
     .sensor{background:rgba(0,0,0,.22);border-radius:10px;padding:11px 10px;
         position:relative;overflow:hidden;cursor:default}
     .sensor::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;border-radius:10px 10px 0 0}
@@ -76,25 +76,25 @@ const char index_html[] PROGMEM = R"rawliteral(
     .sensor-label{font-size:9px;color:var(--text-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
     .sensor-value{font-size:17px;font-weight:700;color:var(--text);line-height:1.2;margin:2px 0}
     .sensor-unit{font-size:9px;color:var(--text-dim)}
-    /* â”€â”€ Human-centric gauges â”€â”€ */
+    /* ── Human-centric gauges ── */
     .gauge-wrap{background:rgba(0,0,0,.24);border:1px solid var(--glass-border);border-radius:12px;padding:12px 13px}
     .gauge-h{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
     .gauge-label{font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.7px;font-weight:600}
     .gauge-val{font-size:14px;font-weight:800;font-family:'JetBrains Mono',monospace}
-    /* outer track (grey shell) â€” marks go here, no overflow:hidden */
+    /* outer track (grey shell) — marks go here, no overflow:hidden */
     .gauge-outer{position:relative;height:18px;display:flex;align-items:center}
     .gauge-track{height:10px;border-radius:999px;background:rgba(255,255,255,.07);width:100%;
         position:relative;overflow:hidden}
-    /* coloured progress fill â€” ONLY to value */
+    /* coloured progress fill — ONLY to value */
     .gauge-fill{position:absolute;left:0;top:0;bottom:0;border-radius:999px;
         transition:width .6s cubic-bezier(.4,0,.2,1)}
-    /* threshold tick marks â€” sit in .gauge-outer, above track */
+    /* threshold tick marks — sit in .gauge-outer, above track */
     .gauge-mark{position:absolute;top:0;bottom:0;width:2px;border-radius:1px;
         background:rgba(255,255,255,.8);box-shadow:0 0 5px rgba(255,255,255,.7)}
     .gauge-foot{display:flex;justify-content:space-between;font-size:9px;color:var(--text-muted);margin-top:4px}
     .hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
     .dash-mix{display:grid;grid-template-columns:1.1fr .9fr;gap:9px}
-    /* â”€â”€ Analogue clock â€” fixed â”€â”€ */
+    /* ── Analogue clock — fixed ── */
     .analogue-clock{width:160px;height:160px;margin:0 auto;border-radius:50%;
         position:relative;overflow:hidden;
         background:radial-gradient(circle at 40% 30%, rgba(255,255,255,.13), rgba(0,0,0,.55));
@@ -124,7 +124,7 @@ const char index_html[] PROGMEM = R"rawliteral(
     .kv-table td{padding:6px 4px;border-bottom:1px solid rgba(255,255,255,.06)}
     .kv-k{color:var(--text-dim)}
     .kv-v{text-align:right;color:var(--text);font-weight:600;font-family:'JetBrains Mono',monospace}
-    /* â”€â”€ Battery donut â”€â”€ */
+    /* ── Battery donut ── */
     .bat-donut{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px}
     .bat-donut svg{filter:drop-shadow(0 0 8px rgba(0,212,170,.3))}
     .bat-center{position:absolute;text-align:center;pointer-events:none}
@@ -134,16 +134,16 @@ const char index_html[] PROGMEM = R"rawliteral(
     .bat-kv{display:flex;flex-direction:column;align-items:center;gap:1px}
     .bat-kv span:first-child{font-size:9px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px}
     .bat-kv span:last-child{font-size:13px;font-weight:700;color:var(--text);font-family:'JetBrains Mono',monospace}
-    /* â”€â”€ AQI Dial â”€â”€ */
+    /* ── AQI Dial ── */
     .aqi-wrap{display:flex;flex-direction:column;align-items:center;gap:4px}
     .aqi-label{font-size:11px;font-weight:700;letter-spacing:.5px}
-    /* â”€â”€ Wind rose â”€â”€ */
+    /* ── Wind rose ── */
     .wind-wrap{display:flex;flex-direction:column;align-items:center;gap:6px}
     .wind-info{display:flex;gap:16px;justify-content:center}
     .wind-kv{display:flex;flex-direction:column;align-items:center}
     .wind-kv span:first-child{font-size:9px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px}
     .wind-kv span:last-child{font-size:14px;font-weight:700;color:var(--text)}
-    /* â”€â”€ Pressure trend â”€â”€ */
+    /* ── Pressure trend ── */
     .press-card{display:flex;align-items:center;gap:12px;padding:10px;
         background:rgba(0,0,0,.22);border-radius:10px;border:1px solid var(--glass-border)}
     .press-arrow{font-size:36px;line-height:1}
@@ -151,7 +151,7 @@ const char index_html[] PROGMEM = R"rawliteral(
     .press-val{font-size:22px;font-weight:800;color:var(--text)}
     .press-forecast{font-size:11px;color:var(--text-dim);margin-top:2px}
     .press-delta{font-size:10px;margin-top:1px}
-    /* â”€â”€ Fault matrix â”€â”€ */
+    /* ── Fault matrix ── */
     .fault-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:5px}
     .fault-item{display:flex;align-items:center;gap:5px;padding:5px 7px;
         background:rgba(0,0,0,.20);border-radius:7px;font-size:10px;color:var(--text-dim)}
@@ -160,9 +160,9 @@ const char index_html[] PROGMEM = R"rawliteral(
     .fault-dot.bad{background:#ef4444;box-shadow:0 0 5px #ef444488;animation:pulse-bad .8s infinite alternate}
     .fault-dot.na{background:#475569}
     @keyframes pulse-bad{from{opacity:1}to{opacity:.4}}
-    /* â”€â”€ Spark-in-tile â”€â”€ */
+    /* ── Spark-in-tile ── */
     .sensor canvas.spark{position:absolute;bottom:0;left:0;right:0;height:28px;opacity:.45;border-radius:0 0 10px 10px}
-    /* â”€â”€ I2C scanner â”€â”€ */
+    /* ── I2C scanner ── */
     .i2c-addr{display:inline-flex;align-items:center;gap:4px;background:rgba(255,255,255,.07);
         border-radius:6px;padding:2px 8px;margin:2px;white-space:nowrap;position:relative;cursor:default}
     .i2c-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
@@ -184,30 +184,30 @@ const char index_html[] PROGMEM = R"rawliteral(
     .i2c-tt-addr{font-size:10px;color:#64748b;font-family:'JetBrains Mono',monospace}
     .i2c-tt-status{font-size:10px;margin-top:4px;font-weight:600}
     .i2c-tt-desc{font-size:10px;color:#94a3b8;margin-top:2px;line-height:1.4}
-    /* â”€â”€ Mode buttons active â”€â”€ */
+    /* ── Mode buttons active ── */
     .mode-btn{transition:all .2s}
     .mode-btn.mode-active{background:rgba(0,212,170,.22)!important;border-color:rgba(0,212,170,.6)!important;
         color:var(--accent)!important;box-shadow:0 0 12px rgba(0,212,170,.25)}
-    /* â”€â”€ Discovery report â”€â”€ */
+    /* ── Discovery report ── */
     .disc-item{padding:8px 10px;border-radius:8px;margin-bottom:6px;font-size:11px;
         background:rgba(0,0,0,.2);border:1px solid rgba(255,255,255,.06)}
     .disc-found{border-left:3px solid #22c55e}
     .disc-miss{border-left:3px solid #ef4444;opacity:.7}
-    /* â”€â”€ Sensor List rows â”€â”€ */
+    /* ── Sensor List rows ── */
     .srow{display:flex;justify-content:space-between;align-items:center;
         padding:6px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:11px;
         cursor:pointer;transition:background .1s;border-radius:4px}
     .srow:hover{background:rgba(255,255,255,.04)}
     .srow span:first-child{color:var(--text-dim);flex:1;padding-right:8px}
     .srow span:last-child{color:var(--text);font-weight:600;white-space:nowrap;font-family:'JetBrains Mono',monospace}
-    /* â”€â”€ Sparkline chart â”€â”€ */
+    /* ── Sparkline chart ── */
     .chartbox{background:rgba(0,0,0,.25);border-radius:8px;padding:8px 10px;margin-top:6px;
         position:relative;height:var(--chart-h);overflow:hidden}
     .chartbox canvas{position:absolute;inset:0;width:100%;height:100%}
     .chartbox .chart-label{font-size:9px;color:var(--text-muted);position:absolute;top:5px;left:8px;z-index:1}
     .chartbox .chart-cur{font-size:13px;font-weight:700;color:var(--accent);
         position:absolute;bottom:5px;right:8px;z-index:1;font-family:'JetBrains Mono',monospace}
-    /* â”€â”€ Terminal â”€â”€ */
+    /* ── Terminal ── */
     #log-terminal{
         background:rgba(0,0,0,.6);color:#00ff88;
         font-family:'JetBrains Mono','Fira Code',monospace;
@@ -228,7 +228,7 @@ const char index_html[] PROGMEM = R"rawliteral(
         border:1px solid var(--glass-border);border-radius:7px;
         padding:5px 10px;font-family:'JetBrains Mono',monospace;font-size:11px;outline:none}
     .log-search:focus{border-color:var(--accent-dim)}
-    /* â”€â”€ Buttons â”€â”€ */
+    /* ── Buttons ── */
     .btn{background:rgba(255,255,255,.06);color:var(--text);
         border:1px solid var(--glass-border);padding:9px 14px;border-radius:9px;
         margin:2px;font-family:inherit;font-size:12px;cursor:pointer;
@@ -240,11 +240,11 @@ const char index_html[] PROGMEM = R"rawliteral(
     .btn.accent{background:rgba(0,212,170,.14);border-color:rgba(0,212,170,.28);color:var(--accent)}
     .btn.accent:hover{background:rgba(0,212,170,.24)}
     .btn-group{display:flex;flex-wrap:wrap;gap:3px;margin:7px 0}
-    /* â”€â”€ Input â”€â”€ */
+    /* ── Input ── */
     input,select{background:rgba(0,0,0,.3);color:var(--text);border:1px solid var(--glass-border);
         padding:9px 11px;border-radius:8px;font-family:inherit;font-size:12px;outline:none;width:100%}
     input:focus,select:focus{border-color:var(--accent-dim)}
-    /* â”€â”€ Status bar â”€â”€ */
+    /* ── Status bar ── */
     .status-bar{position:fixed;top:10px;right:12px;display:flex;gap:7px;z-index:200}
     .status-pill{background:rgba(18,18,30,.8);backdrop-filter:blur(10px);
         padding:5px 11px;border-radius:18px;font-size:10px;
@@ -252,13 +252,13 @@ const char index_html[] PROGMEM = R"rawliteral(
     .status-dot{width:6px;height:6px;border-radius:50%;background:var(--accent)}
     .status-dot.offline{background:var(--danger)}
     #ota-prog{text-align:center;margin-top:8px;font-size:11px;color:var(--accent)}
-    /* â”€â”€ Copy toast â”€â”€ */
+    /* ── Copy toast ── */
     .toast{position:fixed;bottom:70px;left:50%;transform:translateX(-50%) translateY(8px);
         background:rgba(0,212,170,.18);border:1px solid rgba(0,212,170,.35);color:var(--accent);
         font-size:11px;padding:6px 14px;border-radius:20px;opacity:0;
         transition:all .25s;z-index:9999;pointer-events:none}
     .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-    /* â”€â”€ Mobile â”€â”€ */
+    /* ── Mobile ── */
     @media(max-width:600px){
         #desktop{padding:8px;padding-bottom:64px}
         .window{min-width:calc(100vw - 16px) !important}
@@ -269,8 +269,8 @@ const char index_html[] PROGMEM = R"rawliteral(
 </head>
 <body>
 <div class="status-bar">
-    <div class="status-pill"><div class="status-dot" id="wifiDot"></div><span id="wifiStatus">â€¦</span></div>
-    <div class="status-pill">đźŚˇď¸Ź <span id="quickTemp">--</span>Â°C &nbsp;đź’§<span id="quickHum">--</span>%</div>
+    <div class="status-pill"><div class="status-dot" id="wifiDot"></div><span id="wifiStatus">…</span></div>
+    <div class="status-pill">🌡️ <span id="quickTemp">--</span>°C &nbsp;💧<span id="quickHum">--</span>%</div>
     <div class="status-pill" id="langPill" style="cursor:pointer;gap:5px;transition:background .2s" title="Toggle language PL/EN" onclick="setLang(LANG==='en'?'pl':'en')">
         <span id="langFlag" style="font-size:16px;line-height:1"></span>
         <span id="langLbl" style="font-size:10px;font-weight:700;letter-spacing:.3px"></span>
@@ -283,38 +283,38 @@ const char index_html[] PROGMEM = R"rawliteral(
 
 <script>
 // ============================================================
-// ATLAS-OS v2.3 â€” glass window desktop + charts + wide logs
+// ATLAS-OS v2.3 — glass window desktop + charts + wide logs
 // ============================================================
 const DOCK_BTNS = [
-    {id:'dash',    icon:'â—‰',   title:'Dashboard'},
-    {id:'medical', icon:'đźŹĄ',  title:'Medical'},
-    {id:'space',   icon:'đźŚŚ',  title:'Space Weather'},
-    {id:'environ', icon:'đźŚż',  title:'Environment'},
-    {id:'spectr',  icon:'đźŚ',  title:'Spectrometer'},
-    {id:'thermal', icon:'đźŚˇď¸Ź', title:'Thermal Camera'},
-    {id:'imu',     icon:'đź”­',  title:'IMU & Mag'},
-    {id:'sensors', icon:'đź“ˇ',  title:'All Sensors'},
-    {id:'charts',  icon:'đź“',  title:'Charts'},
-    {id:'sys',     icon:'âš™ď¸Ź', title:'System'},
-    {id:'log',     icon:'đź“ś',  title:'Logs'},
+    {id:'dash',    icon:'◉',   title:'Dashboard'},
+    {id:'medical', icon:'🏥',  title:'Medical'},
+    {id:'space',   icon:'🌌',  title:'Space Weather'},
+    {id:'environ', icon:'🌿',  title:'Environment'},
+    {id:'spectr',  icon:'🌈',  title:'Spectrometer'},
+    
+    {id:'imu',     icon:'🔭',  title:'IMU & Mag'},
+    {id:'sensors', icon:'📡',  title:'All Sensors'},
+    {id:'charts',  icon:'📈',  title:'Charts'},
+    {id:'sys',     icon:'⚙️', title:'System'},
+    {id:'log',     icon:'📜',  title:'Logs'},
 ];
 const ICON_COLORS = {
-    'â—‰':'#00d4aa','đźŹĄ':'#fb7185','đźŚŚ':'#818cf8','đźŚż':'#4ade80',
-    'đźŚ':'#f472b6','đźŚˇď¸Ź':'#f97316','đź”­':'#60a5fa','đź“ˇ':'#a78bfa',
-    'đź“':'#f59e0b','âš™ď¸Ź':'#fbbf24','đź“ś':'#94a3b8'
+    '◉':'#00d4aa','🏥':'#fb7185','🌌':'#818cf8','🌿':'#4ade80',
+    '🌈':'#f472b6','🌡️':'#f97316','🔭':'#60a5fa','📡':'#a78bfa',
+    '📈':'#f59e0b','⚙️':'#fbbf24','📜':'#94a3b8'
 };
 
-// â”€â”€ i18n language â”€â”€
+// ── i18n language ──
 let LANG = localStorage.getItem('atlas_lang') || 'en';
 const T = {
     en: {
         dashboard:'Dashboard', medical:'Medical', space:'Space Weather',
-        environ:'Environment', spectr:'Spectrometer', thermal:'Thermal Camera',
+        environ:'Environment', spectr:'Spectrometer', 
         imu:'IMU & Mag', sensors:'All Sensors', charts:'Charts',
         sys:'System', log:'Logs',
         feels:'Feels Like', temp:'Temperature', hum:'Humidity',
         press:'Pressure', dew:'Dew Point', cloud:'Cloud Base',
-        battery:'Battery', solar:'Solar', iaq:'Air Quality', co2:'COâ‚‚',
+        battery:'Battery', solar:'Solar', iaq:'Air Quality', co2:'CO₂',
         uvi:'UV Index', radiation:'Radiation', wind:'Wind',
         migraine:'Migraine Risk', rheum:'Rheumatic Risk', sinus:'Sinus Risk',
         utci:'Thermal Comfort', radon:'Radon Risk', lung:'Lung Deposition',
@@ -324,20 +324,20 @@ const T = {
         biometeo:'Biometeo Alert', bpi:'Baro Pain Index',
     },
     pl: {
-        dashboard:'Panel GĹ‚Ăłwny', medical:'Medyczny', space:'Pogoda Kosmiczna',
-        environ:'Ĺšrodowisko', spectr:'Spektrometr', thermal:'Kamera Termiczna',
+        dashboard:'Panel Główny', medical:'Medyczny', space:'Pogoda Kosmiczna',
+        environ:'Środowisko', spectr:'Spektrometr', 
         imu:'IMU & Mag', sensors:'Wszystkie Czujniki', charts:'Wykresy',
         sys:'System', log:'Logi',
-        feels:'Odczuwalna', temp:'Temperatura', hum:'WilgotnoĹ›Ä‡',
-        press:'CiĹ›nienie', dew:'Punkt Rosy', cloud:'Podstawa Chmur',
-        battery:'Bateria', solar:'Solar', iaq:'JakoĹ›Ä‡ Powietrza', co2:'COâ‚‚',
+        feels:'Odczuwalna', temp:'Temperatura', hum:'Wilgotność',
+        press:'Ciśnienie', dew:'Punkt Rosy', cloud:'Podstawa Chmur',
+        battery:'Bateria', solar:'Solar', iaq:'Jakość Powietrza', co2:'CO₂',
         uvi:'Indeks UV', radiation:'Promieniowanie', wind:'Wiatr',
         migraine:'Ryzyko Migreny', rheum:'Ryzyko Reumatyczne', sinus:'Ryzyko Zatok',
-        utci:'Komfort Cieplny', radon:'Ryzyko Radonu', lung:'Depozycja PĹ‚ucna',
+        utci:'Komfort Cieplny', radon:'Ryzyko Radonu', lung:'Depozycja Płucna',
         aurora:'Prawdopodob. Zorzy', kindex:'Indeks K', ozone:'Ozon',
         forbush:'Spadek Forbusha', ssc:'CME / SSC', skyq:'Stan Nieba',
-        aod:'GĹ‚Ä™bokoĹ›Ä‡ Aerozol.', ghi:'Nasl. SĹ‚oneczne',
-        biometeo:'Alert Biometeo', bpi:'Barometryczny BĂłl',
+        aod:'Głębokość Aerozol.', ghi:'Nasl. Słoneczne',
+        biometeo:'Alert Biometeo', bpi:'Barometryczny Ból',
     }
 };
 function t(key){ return (T[LANG]||T.en)[key] || key; }
@@ -350,12 +350,12 @@ const dock    = document.getElementById('dock');
 const $  = id => document.getElementById(id);
 const el = (tag,cls,html) => { const e=document.createElement(tag); if(cls) e.className=cls; if(html) e.innerHTML=html; return e; };
 
-// â”€â”€ Clock â”€â”€
+// ── Clock ──
 const updateClock = () => $('clock').textContent = new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
 setInterval(updateClock,1000); updateClock();
 setInterval(tickDashClock,1000);
 
-// â”€â”€ WiFi + quick readings â”€â”€
+// ── WiFi + quick readings ──
 function pollStatus(){
     fetch('/wifi').then(r=>r.text()).then(t=>{
         const ok = t.includes('OK');
@@ -370,13 +370,13 @@ function pollStatus(){
 }
 setInterval(pollStatus,10000); pollStatus();
 
-// â”€â”€ Toast copy notification â”€â”€
+// ── Toast copy notification ──
 function showToast(msg='Copied!'){
     const t=$('toast'); t.textContent=msg; t.classList.add('show');
     setTimeout(()=>t.classList.remove('show'),1800);
 }
 
-// â”€â”€ Dock â”€â”€
+// ── Dock ──
 DOCK_BTNS.forEach((b,i)=>{
     const d = el('div','dock-item',b.icon);
     d.title=b.title; d.dataset.id=b.id;
@@ -387,7 +387,7 @@ function setActiveBtn(id){
     dock.querySelectorAll('.dock-item').forEach(d=>d.classList.toggle('active',d.dataset.id===id));
 }
 
-// â”€â”€ Window factory â”€â”€
+// ── Window factory ──
 function createWindow(id, title, icon, x, y, content, w=340) {
     if($(id)){ $(id).style.display='flex'; focusWin(id); return $(id); }
     const col = ICON_COLORS[icon]||'#888';
@@ -424,7 +424,7 @@ function maxWin(id){
 }
 function closeWin(id){ const w=$(id); if(w) w.remove(); }
 
-// â”€â”€ Drag â”€â”€
+// ── Drag ──
 let _dw=null,_do={x:0,y:0};
 function dragStart(e,id){
     e.preventDefault(); _dw=$(id); focusWin(id);
@@ -444,7 +444,7 @@ function dragEnd(){ _dw=null;
     ['mousemove','mouseup','touchmove','touchend'].forEach(ev=>document.removeEventListener(ev,ev==='mousemove'||ev==='touchmove'?dragMove:dragEnd));
 }
 
-// â”€â”€ Notify â”€â”€
+// ── Notify ──
 function notify(msg,ok=true){
     const n=el('div','card');
     n.style.cssText=`position:fixed;top:56px;right:14px;z-index:10001;padding:9px 16px;font-size:12px;
@@ -454,26 +454,26 @@ function notify(msg,ok=true){
     setTimeout(()=>n.remove(),2200);
 }
 
-// â”€â”€ API cmd â”€â”€
+// ── API cmd ──
 function cmd(action,extras=''){
-    fetch('/cmd?action='+action+extras).then(r=>r.text()).then(()=>notify('âś“ '+action)).catch(()=>notify('âś— failed',false));
+    fetch('/cmd?action='+action+extras).then(r=>r.text()).then(()=>notify('✓ '+action)).catch(()=>notify('✗ failed',false));
 }
 
-// â”€â”€ Init language pill â”€â”€
+// ── Init language pill ──
 (function initLangPill(){
     const f=$('langFlag'), l=$('langLbl'), p=$('langPill');
     if(LANG==='pl'){
-        if(f) f.textContent='đź‡µđź‡±';
+        if(f) f.textContent='🇵🇱';
         if(l) l.textContent='PL';
         if(p) p.style.borderColor='rgba(220,36,31,.35)';
     } else {
-        if(f) f.textContent='đź‡¬đź‡§';
+        if(f) f.textContent='🇬🇧';
         if(l) l.textContent='EN';
         if(p) p.style.borderColor='rgba(0,82,180,.35)';
     }
 })();
 
-// â”€â”€ Sensor tile builder â”€â”€
+// ── Sensor tile builder ──
 function sensorTile(icon,label,val,unit,status='good'){
     return `<div class="sensor ${status}">
         <div class="sensor-icon">${icon}</div>
@@ -498,9 +498,9 @@ function gauge(label,val,min,max,warn,danger,unit=''){
     const pct = ((cur-min)/(max-min))*100;
     const warnPct = ((warn-min)/(max-min))*100;
     const dangerPct = ((danger-min)/(max-min))*100;
-    // fill colour = position-based: green â†’ amber â†’ red
+    // fill colour = position-based: green → amber → red
     const col = !safe ? '#475569' : (n>=danger?'#ef4444':n>=warn?'#f59e0b':'#22c55e');
-    // gradient on fill: always greenâ†’col so it looks smooth
+    // gradient on fill: always green→col so it looks smooth
     const fillGrad = !safe ? '#475569' : (n>=danger
         ? 'linear-gradient(90deg,#22c55e,#f59e0b 45%,#ef4444)'
         : n>=warn
@@ -554,9 +554,9 @@ function tickDashClock(){
     if(tEl) tEl.style.transform=`rotate(${sDeg}deg)`;
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-// BATTERY RING DONUT  â€” SVG arc, no libs
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ══════════════════════════════════════════════════════
+// BATTERY RING DONUT  — SVG arc, no libs
+// ══════════════════════════════════════════════════════
 function batteryDonut(soc, volt, solar_mw, esp_mw, drain_rate, tte_min){
     const R=54, CX=64, CY=64, stroke=10;
     const circ=2*Math.PI*R;
@@ -589,9 +589,9 @@ function batteryDonut(soc, volt, solar_mw, esp_mw, drain_rate, tte_min){
     </div>`;
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-// AQI SEMI-CIRCLE SPEEDOMETER  â€” canvas, WHO bands
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ══════════════════════════════════════════════════════
+// AQI SEMI-CIRCLE SPEEDOMETER  — canvas, WHO bands
+// ══════════════════════════════════════════════════════
 function drawAqiDial(canvasId, iaq){
     const cvs=$(canvasId); if(!cvs) return;
     const W=200, H=120;
@@ -637,9 +637,9 @@ function drawAqiDial(canvasId, iaq){
     ctx.fillText(lbl, cx, cy+6);
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-// WIND ROSE COMPASS  â€” SVG needle
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ══════════════════════════════════════════════════════
+// WIND ROSE COMPASS  — SVG needle
+// ══════════════════════════════════════════════════════
 function windRose(dir_deg, speed_kph, gust_kph){
     const safe=Number.isFinite(+dir_deg);
     const ang=safe?+dir_deg:0;
@@ -668,25 +668,25 @@ function windRose(dir_deg, speed_kph, gust_kph){
         <div class="wind-info">
             <div class="wind-kv"><span>Speed</span><span>${spd} kph</span></div>
             <div class="wind-kv"><span>Gust</span><span style="color:#f59e0b">${gst} kph</span></div>
-            <div class="wind-kv"><span>Dir</span><span style="color:#60a5fa">${card} ${safe?Math.round(ang)+'Â°':''}</span></div>
+            <div class="wind-kv"><span>Dir</span><span style="color:#60a5fa">${card} ${safe?Math.round(ang)+'°':''}</span></div>
         </div>
     </div>`;
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ══════════════════════════════════════════════════════
 // PRESSURE TREND + ZAMBRETTI FORECAST
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ══════════════════════════════════════════════════════
 function pressureTrend(press_hpa, delta3h, trend_str){
     const p=Number.isFinite(+press_hpa)?+press_hpa:null;
     const d=Number.isFinite(+delta3h)?+delta3h:null;
-    const arrows={Rising:'â†‘',Falling:'â†“','Rapidly Rising':'â‡','Rapidly Falling':'â‡Š',Stable:'â†’'};
-    let dir='â†’', col='#94a3b8', zam='Changeable';
+    const arrows={Rising:'↑',Falling:'↓','Rapidly Rising':'⇈','Rapidly Falling':'⇊',Stable:'→'};
+    let dir='→', col='#94a3b8', zam='Changeable';
     if(d!=null){
-        if(d>3){dir='â‡';col='#22c55e';zam='Fair, improving';}
-        else if(d>1){dir='â†‘';col='#4ade80';zam='Clearing, good';}
-        else if(d>-1){dir='â†’';col='#94a3b8';zam='Settled, no change';}
-        else if(d>-3){dir='â†“';col='#f59e0b';zam='Unsettled, rain possible';}
-        else{dir='â‡Š';col='#ef4444';zam='Deteriorating, rain/storm';}
+        if(d>3){dir='⇈';col='#22c55e';zam='Fair, improving';}
+        else if(d>1){dir='↑';col='#4ade80';zam='Clearing, good';}
+        else if(d>-1){dir='→';col='#94a3b8';zam='Settled, no change';}
+        else if(d>-3){dir='↓';col='#f59e0b';zam='Unsettled, rain possible';}
+        else{dir='⇊';col='#ef4444';zam='Deteriorating, rain/storm';}
     } else if(trend_str && arrows[trend_str]){ dir=arrows[trend_str]; }
     const dStr=d!=null?(d>0?'+':'')+fv(d,1)+' hPa/3h':'--';
     return `<div class="press-card">
@@ -699,17 +699,17 @@ function pressureTrend(press_hpa, delta3h, trend_str){
     </div>`;
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ══════════════════════════════════════════════════════
 // FAULT / HEALTH LED MATRIX
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ══════════════════════════════════════════════════════
 function faultMatrix(s){
     const sensors=[
         ['SHT45','Fault_SHT45'],['BMP585','Fault_BMP585'],['BME690','Fault_BME690'],
         ['SCD41','Fault_SCD41'],['SGP41','Fault_SGP41'],['BMV080','Fault_BMV080'],
         ['TSL2591','Fault_TSL2591'],['LTR390','Fault_LTR390'],['VEML','Fault_VEML7700'],
         ['OPT4048','Fault_OPT4048'],['TCS','Fault_TCS34725'],['AS7343','Fault_AS7343'],
-        ['AS7331','Fault_AS7331'],['Geiger','Fault_Geiger'],['AS3935','Fault_AS3935'],
-        ['MLX640','Fault_MLX90640'],['INA219','Fault_INA219'],['MAX17048','Fault_MAX17048'],
+        ['AS7331','Fault_AS7331'],['AS3935','Fault_AS3935'],
+        ['INA219','Fault_INA219'],['MAX17048','Fault_MAX17048'],
         ['LSM6','Fault_LSM6DSOX'],['LIS3MDL','Fault_LIS3MDL'],['BMM350','Fault_BMM350'],
         ['ZMOD4510','Fault_ZMOD4510'],['ILPS','Fault_ILPS22QS'],['MS8607','Fault_MS8607'],
         ['RG15','Fault_RG15'],['I2C Mem','Fault_I2CMemory'],
@@ -722,9 +722,9 @@ function faultMatrix(s){
     }).join('');
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ══════════════════════════════════════════════════════
 // MINI SPARKLINE INSIDE SENSOR TILE
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ══════════════════════════════════════════════════════
 function sensorTileSpark(icon,label,val,unit,status,histKey,color){
     const hist=CHART_HISTORY[histKey]||[];
     const cid='spk_'+histKey+'_'+Math.random().toString(36).slice(2,6);
@@ -754,9 +754,9 @@ function sensorTileSpark(icon,label,val,unit,status,histKey,color){
     </div>`;
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ══════════════════════════════════════════════════════
 // ZMOD4510 OUTDOOR GAS PANEL
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ══════════════════════════════════════════════════════
 function zmodPanel(s){
     const no2=s.ZMOD4510_NO2_ppb, o3=s.ZMOD4510_O3_ppb,
           eaqi=s.ZMOD4510_EPA_AQI, fast=s.ZMOD4510_FAST_AQI,
@@ -766,14 +766,14 @@ function zmodPanel(s){
     const aqcol=Number.isFinite(+eaqi)?(+eaqi>150?'#ef4444':+eaqi>100?'#f59e0b':+eaqi>50?'#84cc16':'#22c55e'):'#888';
     return `<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
         <div style="background:rgba(0,0,0,.22);border-radius:10px;padding:12px;border-left:3px solid ${no2col}">
-            <div style="font-size:9px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">NOâ‚‚</div>
+            <div style="font-size:9px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">NO₂</div>
             <div style="font-size:26px;font-weight:800;color:${no2col};line-height:1">${Number.isFinite(+no2)?fv(no2,1):'--'}</div>
-            <div style="font-size:9px;color:var(--text-dim);margin-top:2px">ppb &nbsp;Â·&nbsp; ${Number.isFinite(+s.ZMOD4510_NO2_ugm3)?fv(s.ZMOD4510_NO2_ugm3,1)+' Âµg/mÂł':'--'}</div>
+            <div style="font-size:9px;color:var(--text-dim);margin-top:2px">ppb &nbsp;·&nbsp; ${Number.isFinite(+s.ZMOD4510_NO2_ugm3)?fv(s.ZMOD4510_NO2_ugm3,1)+' µg/m³':'--'}</div>
         </div>
         <div style="background:rgba(0,0,0,.22);border-radius:10px;padding:12px;border-left:3px solid ${o3col}">
-            <div style="font-size:9px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Oâ‚</div>
+            <div style="font-size:9px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">O₃</div>
             <div style="font-size:26px;font-weight:800;color:${o3col};line-height:1">${Number.isFinite(+o3)?fv(o3,1):'--'}</div>
-            <div style="font-size:9px;color:var(--text-dim);margin-top:2px">ppb &nbsp;Â·&nbsp; ${Number.isFinite(+s.ZMOD4510_O3_ugm3)?fv(s.ZMOD4510_O3_ugm3,1)+' Âµg/mÂł':'--'} &nbsp;Â·&nbsp; Risk: ${o3r??'--'}</div>
+            <div style="font-size:9px;color:var(--text-dim);margin-top:2px">ppb &nbsp;·&nbsp; ${Number.isFinite(+s.ZMOD4510_O3_ugm3)?fv(s.ZMOD4510_O3_ugm3,1)+' µg/m³':'--'} &nbsp;·&nbsp; Risk: ${o3r??'--'}</div>
         </div>
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:6px">
@@ -793,7 +793,7 @@ function zmodPanel(s){
     <div style="margin-top:6px;font-size:10px;color:var(--text-dim);text-align:right">Sensor: ${st??'--'}</div>`;
 }
 
-// â”€â”€ Big readable metric card â€” compact data card â”€â”€
+// ── Big readable metric card — compact data card ──
 function bigCard(icon,title,value,unit,note,color='#00d4aa',status=''){
     const col = status==='danger'?'#ef4444':status==='warn'?'#f59e0b':color;
     const bg  = status==='danger'?'rgba(239,68,68,.08)':status==='warn'?'rgba(245,158,11,.08)':'rgba(0,0,0,.18)';
@@ -810,11 +810,11 @@ function bigCard(icon,title,value,unit,note,color='#00d4aa',status=''){
             </div>
             ${note?`<div style="font-size:10px;color:var(--text-dim);margin-top:2px">${note}</div>`:''}
         </div>
-        ${status==='danger'?'<div style="font-size:16px">âš ď¸Ź</div>':status==='warn'?'<div style="font-size:16px">âšˇ</div>':''}
+        ${status==='danger'?'<div style="font-size:16px">⚠️</div>':status==='warn'?'<div style="font-size:16px">⚡</div>':''}
     </div>`;
 }
 
-// â”€â”€ Risk progress bar â€” with threshold tick â”€â”€
+// ── Risk progress bar — with threshold tick ──
 function riskBar(label, val, maxVal=10, color='#00d4aa'){
     const n = typeof val==='number'?val:parseFloat(val)||0;
     const pct = Math.min(100,(n/maxVal)*100);
@@ -842,7 +842,7 @@ function riskBar(label, val, maxVal=10, color='#00d4aa'){
     </div>`;
 }
 
-// â”€â”€ Load section â”€â”€
+// ── Load section ──
 function loadSection(id){
     setActiveBtn(id);
     if(id==='dash')     loadDashboard();
@@ -850,7 +850,7 @@ function loadSection(id){
     else if(id==='space')    loadSpaceWeather();
     else if(id==='environ')  loadEnviron();
     else if(id==='spectr')   loadSpectrometer();
-    else if(id==='thermal')  loadThermal();
+    
     else if(id==='imu')      loadIMU();
     else if(id==='sensors')  loadSensors();
     else if(id==='charts')   loadCharts();
@@ -858,21 +858,21 @@ function loadSection(id){
     else if(id==='log')      loadLogs();
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-// DASHBOARD  â€” full featured v3
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ═══════════════════════════════════════════════════════════════
+// DASHBOARD  — full featured v3
+// ═══════════════════════════════════════════════════════════════
 let _dashTimer = null;
 function loadDashboard(){
     const vw=window.innerWidth, W=Math.min(vw-16,480);
-    createWindow('dash-win','Dashboard','â—‰',20,40,`
+    createWindow('dash-win','Dashboard','◉',20,40,`
         <!-- ROW 1: Battery donut + AQI dial + Clock -->
         <div class="card-2col" style="margin-bottom:9px">
             <div class="card" style="padding:12px">
-                <div class="card-title">đź”‹ Battery</div>
+                <div class="card-title">🔋 Battery</div>
                 <div id="dBatDonut"></div>
             </div>
             <div class="card" style="padding:12px">
-                <div class="card-title">đźŤ Air Quality Index</div>
+                <div class="card-title">🍃 Air Quality Index</div>
                 <div class="aqi-wrap">
                     <canvas id="dAqiDial" width="200" height="120" style="max-width:100%"></canvas>
                     <div id="dAqiLabel" class="aqi-label"></div>
@@ -881,43 +881,43 @@ function loadDashboard(){
         </div>
         <!-- ROW 2: Safety gauges -->
         <div class="card" style="margin-bottom:9px">
-            <div class="card-title">đź§­ Safety Gauges</div>
+            <div class="card-title">🧭 Safety Gauges</div>
             <div class="hero-grid" id="dGauges"></div>
         </div>
         <!-- ROW 3: Pressure trend + Wind rose + Clock -->
         <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px;margin-bottom:9px">
             <div class="card" style="padding:12px">
-                <div class="card-title">đźŚˇď¸Ź Pressure</div>
+                <div class="card-title">🌡️ Pressure</div>
                 <div id="dPressure"></div>
             </div>
             <div class="card" style="padding:12px">
-                <div class="card-title">đźŚ¬ď¸Ź Wind</div>
+                <div class="card-title">🌬️ Wind</div>
                 <div id="dWind"></div>
             </div>
             <div class="card" style="padding:12px;text-align:center">
-                <div class="card-title">đź•’ Local Time</div>
+                <div class="card-title">🕒 Local Time</div>
                 <div id="dClock"></div>
                 <div id="dMode" style="margin-top:6px;font-size:10px;color:var(--text-dim)"></div>
             </div>
         </div>
         <!-- ROW 4: Environment tiles with sparklines -->
         <div class="card" style="margin-bottom:9px">
-            <div class="card-title">đźŹ  Environment</div>
+            <div class="card-title">🏠 Environment</div>
             <div class="card-grid" id="dEnv"></div>
         </div>
         <!-- ROW 5: Outdoor gas ZMOD4510 -->
         <div class="card" style="margin-bottom:9px">
-            <div class="card-title">đźŹ­ Outdoor Air â€” ZMOD4510 (NOâ‚‚ / Oâ‚)</div>
+            <div class="card-title">🏭 Outdoor Air — ZMOD4510 (NO₂ / O₃)</div>
             <div id="dZmod"></div>
         </div>
         <!-- ROW 6: Radiation & Light -->
         <div class="card" style="margin-bottom:9px">
-            <div class="card-title">âšˇ Radiation & Light</div>
+            <div class="card-title">⚡ Radiation & Light</div>
             <div class="card-grid" id="dRad"></div>
         </div>
         <!-- ROW 7: Fault matrix -->
         <div class="card">
-            <div class="card-title">đź”§ Hardware Health</div>
+            <div class="card-title">🔧 Hardware Health</div>
             <div class="fault-grid" id="dFault"></div>
         </div>
     `,W);
@@ -947,10 +947,10 @@ function loadDashboard(){
             const dg=$('dGauges');
             if(dg) dg.innerHTML=[
                 gauge('IAQ',s.BME688_IAQ,0,300,100,200,''),
-                gauge('COâ‚‚',s.SCD41_CO2_ppm,400,2500,1000,2000,'ppm'),
-                gauge('PM2.5',s.BMV080_PM2_5,0,150,35,55,'Âµg/mÂł'),
+                gauge('CO₂',s.SCD41_CO2_ppm,400,2500,1000,2000,'ppm'),
+                gauge('PM2.5',s.BMV080_PM2_5,0,150,35,55,'µg/m³'),
                 gauge('UV',s.LTR390_UVI,0,11,3,7,''),
-                gauge('Radiation',s.Geiger_uSvh,0,1.0,0.2,0.5,'ÂµSv/h'),
+                gauge('Radiation',s.Geiger_uSvh,0,1.0,0.2,0.5,'µSv/h'),
                 gauge('Humidity',s.SHT45_Hum,0,100,60,75,'%'),
             ].join('');
 
@@ -968,17 +968,17 @@ function loadDashboard(){
                 if(_dashTimer) clearInterval(_dashTimer);
                 _dashTimer=setInterval(tickDashClock,1000); tickDashClock(); }
             const dm=$('dMode');
-            if(dm) dm.innerHTML=`Mode: <b>${s.System_Mode||'--'}</b> &nbsp;Â·&nbsp; Up: ${s.System_Uptime_Hours!=null?fv(s.System_Uptime_Hours,1)+'h':'--'}`;
+            if(dm) dm.innerHTML=`Mode: <b>${s.System_Mode||'--'}</b> &nbsp;·&nbsp; Up: ${s.System_Uptime_Hours!=null?fv(s.System_Uptime_Hours,1)+'h':'--'}`;
 
             // Environment tiles with sparklines
             const de=$('dEnv');
             if(de) de.innerHTML=[
-                sensorTileSpark('đźŚˇď¸Ź','Temperature',fv(s.SHT45_Temp),'Â°C',s.SHT45_Temp>35?'danger':s.SHT45_Temp>28?'warn':'good','SHT45_Temp','#f97316'),
-                sensorTileSpark('đźŚˇď¸Ź','Feels Like',fv(s.METEO_Feels_Like_C),'Â°C','good','METEO_Feels_Like_C','#fb923c'),
-                sensorTileSpark('đź’§','Humidity',fv(s.SHT45_Hum),'%',s.SHT45_Hum>75?'warn':'good','SHT45_Hum','#38bdf8'),
-                sensorTileSpark('đź“Š','Pressure',fv(s.BMP585_Pressure_hPa,0),'hPa','good','BMP585_Pressure_hPa','#94a3b8'),
-                sensorTileSpark('đź«§','COâ‚‚',fv(s.SCD41_CO2_ppm,0),'ppm',status_co2(s.SCD41_CO2_ppm),'SCD41_CO2_ppm','#a3e635'),
-                sensorTileSpark('đź’¨','VOC Idx',fv(s.SGP41_VOC_Index,0),'',s.SGP41_VOC_Index>150?'warn':'good','SGP41_VOC_Index','#c084fc'),
+                sensorTileSpark('🌡️','Temperature',fv(s.SHT45_Temp),'°C',s.SHT45_Temp>35?'danger':s.SHT45_Temp>28?'warn':'good','SHT45_Temp','#f97316'),
+                sensorTileSpark('🌡️','Feels Like',fv(s.METEO_Feels_Like_C),'°C','good','METEO_Feels_Like_C','#fb923c'),
+                sensorTileSpark('💧','Humidity',fv(s.SHT45_Hum),'%',s.SHT45_Hum>75?'warn':'good','SHT45_Hum','#38bdf8'),
+                sensorTileSpark('📊','Pressure',fv(s.BMP585_Pressure_hPa,0),'hPa','good','BMP585_Pressure_hPa','#94a3b8'),
+                sensorTileSpark('🫧','CO₂',fv(s.SCD41_CO2_ppm,0),'ppm',status_co2(s.SCD41_CO2_ppm),'SCD41_CO2_ppm','#a3e635'),
+                sensorTileSpark('💨','VOC Idx',fv(s.SGP41_VOC_Index,0),'',s.SGP41_VOC_Index>150?'warn':'good','SGP41_VOC_Index','#c084fc'),
             ].join('');
 
             // ZMOD4510
@@ -988,12 +988,12 @@ function loadDashboard(){
             // Radiation & Light
             const dr=$('dRad');
             if(dr) dr.innerHTML=[
-                sensorTileSpark('â˘ď¸Ź','Radiation',fv(s.Geiger_uSvh,3),'ÂµSv/h',status_rad(s.Geiger_uSvh),'Geiger_uSvh','#facc15'),
-                sensorTile('â˘ď¸Ź','CPM',fv(s.Geiger_CPM,0),'CPM','good'),
-                sensorTileSpark('đźŚž','UV Index',fv(s.LTR390_UVI,1),'',s.LTR390_UVI>7?'danger':s.LTR390_UVI>3?'warn':'good','LTR390_UVI','#e879f9'),
-                sensorTile('đź”†','Lux',fv(s.TSL2591_Lux,0),'lx','good'),
-                sensorTile('đźŚ','CCT',fv(s.OPTICS_CCT,0),'K','good'),
-                sensorTile('đź§˛','Mag',fv(s.LIS3MDL_Mag_uT),'ÂµT','good'),
+                sensorTileSpark('☢️','Radiation',fv(s.Geiger_uSvh,3),'µSv/h',status_rad(s.Geiger_uSvh),'Geiger_uSvh','#facc15'),
+                
+                sensorTileSpark('🌞','UV Index',fv(s.LTR390_UVI,1),'',s.LTR390_UVI>7?'danger':s.LTR390_UVI>3?'warn':'good','LTR390_UVI','#e879f9'),
+                sensorTile('🔆','Lux',fv(s.TSL2591_Lux,0),'lx','good'),
+                sensorTile('🌈','CCT',fv(s.OPTICS_CCT,0),'K','good'),
+                sensorTile('🧲','Mag',fv(s.LIS3MDL_Mag_uT),'µT','good'),
             ].join('');
 
             // Fault matrix
@@ -1009,14 +1009,14 @@ function loadDashboard(){
     window._dashDataTimer=setInterval(renderDash, 30000);
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-// ALL SENSORS â€” 2-column list with copy-on-click
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ═══════════════════════════════════════════════
+// ALL SENSORS — 2-column list with copy-on-click
+// ═══════════════════════════════════════════════
 function loadSensors(){
     const vw=window.innerWidth;
     const w=Math.min(vw-16, 720);
-    createWindow('sensors-win','All Sensors','đź“ˇ',20,40,`
-        <input class="log-search" placeholder="đź”Ť Filter sensors..." id="sFilter" oninput="filterSensors()">
+    createWindow('sensors-win','All Sensors','📡',20,40,`
+        <input class="log-search" placeholder="🔍 Filter sensors..." id="sFilter" oninput="filterSensors()">
         <div id="sList" style="margin-top:8px"></div>
     `,w);
     fetch('/api').then(r=>r.json()).then(d=>{
@@ -1039,146 +1039,146 @@ function renderSensorList(s,q){
     $('sList').innerHTML=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:0 16px">
         <div>${col(keys.slice(0,half))}</div>
         <div>${col(keys.slice(half))}</div>
-    </div><div style="font-size:10px;color:var(--text-muted);margin-top:6px;text-align:right">${keys.length} sensors â€” click to copy</div>`;
+    </div><div style="font-size:10px;color:var(--text-muted);margin-top:6px;text-align:right">${keys.length} sensors — click to copy</div>`;
 }
 function filterSensors(){ const q=($('sFilter')||{}).value||''; if(window._sensorData) renderSensorList(window._sensorData,q); }
 function copySensor(k,v){
     navigator.clipboard?.writeText(k+': '+v).then(()=>showToast('Copied: '+k));
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ═══════════════════════════════════════════════
 // ENVIRONMENT
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ═══════════════════════════════════════════════
 function loadEnv(){
-    createWindow('env-win','Environment','đźŚ¬ď¸Ź',60,60,`
+    createWindow('env-win','Environment','🌬️',60,60,`
         <div class="card">
-            <div class="card-title">đźŚˇď¸Ź Thermal Comfort</div>
+            <div class="card-title">🌡️ Thermal Comfort</div>
             <div class="card-grid" id="eThermal"></div>
         </div>
         <div class="card-2col">
-            <div class="card"><div class="card-title">đź’§ Humidity</div><div id="eHum"></div></div>
-            <div class="card"><div class="card-title">đźŚ¬ď¸Ź Pressure</div><div id="ePress"></div></div>
+            <div class="card"><div class="card-title">💧 Humidity</div><div id="eHum"></div></div>
+            <div class="card"><div class="card-title">🌬️ Pressure</div><div id="ePress"></div></div>
         </div>
-        <div class="card"><div class="card-title">â€ď¸Ź Radiation</div><div class="card-grid" id="eRad"></div></div>
-        <div class="card"><div class="card-title">âšˇ Power</div><div class="card-grid" id="ePwr"></div></div>
+        <div class="card"><div class="card-title">☀️ Radiation</div><div class="card-grid" id="eRad"></div></div>
+        <div class="card"><div class="card-title">⚡ Power</div><div class="card-grid" id="ePwr"></div></div>
     `,390);
     fetch('/api').then(r=>r.json()).then(d=>{
         const s=d.sensors||{};
         $('eThermal').innerHTML=[
-            sensorTile('đźŚˇď¸Ź','Actual',fv(s.SHT45_Temp),'Â°C','good'),
-            sensorTile('đźŚˇď¸Ź','Feels Like',fv(s.METEO_Feels_Like_C),'Â°C','good'),
-            sensorTile('đźŚˇď¸Ź','Heat Index',fv(s.METEO_Heat_Index),'Â°C','good'),
-            sensorTile('đź’§','Wet Bulb',fv(s.METEO_Wet_Bulb_C),'Â°C','good'),
-            sensorTile('â›…','Dew Point',fv(s.METEO_Dew_Point_C),'Â°C','good'),
-            sensorTile('đźŚ¬ď¸Ź','Wind Chill',fv(s.WIND_Speed_Kph)?fv(s.METEO_Feels_Like_C):'--','Â°C','good'),
+            sensorTile('🌡️','Actual',fv(s.SHT45_Temp),'°C','good'),
+            sensorTile('🌡️','Feels Like',fv(s.METEO_Feels_Like_C),'°C','good'),
+            sensorTile('🌡️','Heat Index',fv(s.METEO_Heat_Index),'°C','good'),
+            sensorTile('💧','Wet Bulb',fv(s.METEO_Wet_Bulb_C),'°C','good'),
+            sensorTile('⛅','Dew Point',fv(s.METEO_Dew_Point_C),'°C','good'),
+            sensorTile('🌬️','Wind Chill',fv(s.WIND_Speed_Kph)?fv(s.METEO_Feels_Like_C):'--','°C','good'),
         ].join('');
         $('eHum').innerHTML=[
-            sensorTile('đź’§','Rel. Hum.',fv(s.SHT45_Hum),'%',s.SHT45_Hum>75?'warn':'good'),
-            sensorTile('đź’§','Abs. Hum.',fv(s.METEO_Abs_Hum_g_m3),'g/mÂł','good'),
-            sensorTile('đź¦ ','Mold Risk',s.METEO_Mold_Risk?'YES':'No','',s.METEO_Mold_Risk?'warn':'good'),
-            sensorTile('đź¦ ','Virus Risk',s.METEO_Virus_Risk?'HIGH':'Low','',s.METEO_Virus_Risk?'warn':'good'),
+            sensorTile('💧','Rel. Hum.',fv(s.SHT45_Hum),'%',s.SHT45_Hum>75?'warn':'good'),
+            sensorTile('💧','Abs. Hum.',fv(s.METEO_Abs_Hum_g_m3),'g/m³','good'),
+            sensorTile('🦠','Mold Risk',s.METEO_Mold_Risk?'YES':'No','',s.METEO_Mold_Risk?'warn':'good'),
+            sensorTile('🦠','Virus Risk',s.METEO_Virus_Risk?'HIGH':'Low','',s.METEO_Virus_Risk?'warn':'good'),
         ].join('');
         $('ePress').innerHTML=[
-            sensorTile('đź“Š','Station',fv(s.BMP585_Pressure_hPa,1),'hPa','good'),
-            sensorTile('đź“Š','Sea Level',fv(s.METEO_Sea_Level_Press_hPa,1),'hPa','good'),
-            sensorTile('âď¸Ź','Cloud Base',fv(s.METEO_Cloud_Base_m,0),'m','good'),
-            sensorTile('đź’¨','Air Density',fv(s.METEO_Air_Density,4),'kg/mÂł','good'),
+            sensorTile('📊','Station',fv(s.BMP585_Pressure_hPa,1),'hPa','good'),
+            sensorTile('📊','Sea Level',fv(s.METEO_Sea_Level_Press_hPa,1),'hPa','good'),
+            sensorTile('☁️','Cloud Base',fv(s.METEO_Cloud_Base_m,0),'m','good'),
+            sensorTile('💨','Air Density',fv(s.METEO_Air_Density,4),'kg/m³','good'),
         ].join('');
         $('eRad').innerHTML=[
-            sensorTile('â˘ď¸Ź','uSv/h',fv(s.Geiger_uSvh,3),'ÂµSv/h',status_rad(s.Geiger_uSvh)),
-            sensorTile('â˘ď¸Ź','CPM',fv(s.Geiger_CPM,0),'CPM','good'),
-            sensorTile('đźŚž','UV Index',fv(s.LTR390_UVI),'',s.LTR390_UVI>7?'danger':s.LTR390_UVI>3?'warn':'good'),
-            sensorTile('đź”†','Lux',fv(s.TSL2591_Lux,0),'lx','good'),
+            sensorTile('☢️','uSv/h',fv(s.Geiger_uSvh,3),'µSv/h',status_rad(s.Geiger_uSvh)),
+            
+            sensorTile('🌞','UV Index',fv(s.LTR390_UVI),'',s.LTR390_UVI>7?'danger':s.LTR390_UVI>3?'warn':'good'),
+            sensorTile('🔆','Lux',fv(s.TSL2591_Lux,0),'lx','good'),
         ].join('');
         $('ePwr').innerHTML=[
-            sensorTile('đź”‹','Battery',fv(s.BMS_State_Of_Charge,0),'%',s.BMS_State_Of_Charge<20?'warn':'good'),
-            sensorTile('â€ď¸Ź','Solar',fv(s.SOLAR_Power_mW,0),'mW','good'),
-            sensorTile('âšˇ','Node',fv(s.BMS_ESP_Power_mW,0),'mW','good'),
-            sensorTile('âŹ±ď¸Ź','T to Empty',fv(s.BMS_Time_To_Empty_min,0),'min','good'),
+            sensorTile('🔋','Battery',fv(s.BMS_State_Of_Charge,0),'%',s.BMS_State_Of_Charge<20?'warn':'good'),
+            sensorTile('☀️','Solar',fv(s.SOLAR_Power_mW,0),'mW','good'),
+            sensorTile('⚡','Node',fv(s.BMS_ESP_Power_mW,0),'mW','good'),
+            sensorTile('⏱️','T to Empty',fv(s.BMS_Time_To_Empty_min,0),'min','good'),
         ].join('');
     });
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ═══════════════════════════════════════════════
 // IMU + MAGNETOMETERS
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ═══════════════════════════════════════════════
 function loadIMU(){
-    createWindow('imu-win','IMU & Magnetometers','đź”­',80,60,`
+    createWindow('imu-win','IMU & Magnetometers','🔭',80,60,`
         <div class="card-2col">
             <div class="card">
-                <div class="card-title">đź”© LSM6DSOX Accelerometer</div>
+                <div class="card-title">🔩 LSM6DSOX Accelerometer</div>
                 <div id="iAccel"></div>
             </div>
             <div class="card">
-                <div class="card-title">đź”„ LSM6DSOX Gyroscope</div>
+                <div class="card-title">🔄 LSM6DSOX Gyroscope</div>
                 <div id="iGyro"></div>
             </div>
         </div>
         <div class="card-2col">
             <div class="card">
-                <div class="card-title">đź§˛ LIS3MDL Magnetometer</div>
+                <div class="card-title">🧲 LIS3MDL Magnetometer</div>
                 <div id="iLis"></div>
             </div>
             <div class="card">
-                <div class="card-title">đź§˛ BMM350 Precision Mag</div>
+                <div class="card-title">🧲 BMM350 Precision Mag</div>
                 <div id="iBmm"></div>
             </div>
         </div>
         <div class="card">
-            <div class="card-title">đź“ Derived Orientation</div>
+            <div class="card-title">📐 Derived Orientation</div>
             <div class="card-grid" id="iDerived"></div>
         </div>
     `,440);
     fetch('/api').then(r=>r.json()).then(d=>{
         const s=d.sensors||{};
         $('iAccel').innerHTML=[
-            sensorTile('âžˇď¸Ź','X',fv(s.LSM6_Accel_X,3),'m/sÂ˛','good'),
-            sensorTile('â¬†ď¸Ź','Y',fv(s.LSM6_Accel_Y,3),'m/sÂ˛','good'),
-            sensorTile('â¬‡ď¸Ź','Z',fv(s.LSM6_Accel_Z,3),'m/sÂ˛','good'),
-            sensorTile('đź“Ź','|A|',fv(s.LSM6_Accel_Mag,3),'m/sÂ˛',s.LSM6_Shock_Det?'danger':'good'),
+            sensorTile('➡️','X',fv(s.LSM6_Accel_X,3),'m/s²','good'),
+            sensorTile('⬆️','Y',fv(s.LSM6_Accel_Y,3),'m/s²','good'),
+            sensorTile('⬇️','Z',fv(s.LSM6_Accel_Z,3),'m/s²','good'),
+            sensorTile('📏','|A|',fv(s.LSM6_Accel_Mag,3),'m/s²',s.LSM6_Shock_Det?'danger':'good'),
         ].join('');
         $('iGyro').innerHTML=[
-            sensorTile('đź”„','Gx',fv(s.LSM6_Gyro_X_rads,4),'rad/s','good'),
-            sensorTile('đź”„','Gy',fv(s.LSM6_Gyro_Y_rads,4),'rad/s','good'),
-            sensorTile('đź”„','Gz',fv(s.LSM6_Gyro_Z_rads,4),'rad/s','good'),
-            sensorTile('đźŚˇď¸Ź','Die T',fv(s.LSM6_Temp_C),'Â°C','good'),
+            sensorTile('🔄','Gx',fv(s.LSM6_Gyro_X_rads,4),'rad/s','good'),
+            sensorTile('🔄','Gy',fv(s.LSM6_Gyro_Y_rads,4),'rad/s','good'),
+            sensorTile('🔄','Gz',fv(s.LSM6_Gyro_Z_rads,4),'rad/s','good'),
+            sensorTile('🌡️','Die T',fv(s.LSM6_Temp_C),'°C','good'),
         ].join('');
         $('iLis').innerHTML=[
-            sensorTile('đź§˛','X',fv(s.LIS3MDL_X_uT),'ÂµT','good'),
-            sensorTile('đź§˛','Y',fv(s.LIS3MDL_Y_uT),'ÂµT','good'),
-            sensorTile('đź§˛','Z',fv(s.LIS3MDL_Z_uT),'ÂµT','good'),
-            sensorTile('đź§­','Hdg',fv(s.LIS3MDL_Heading,1),'Â°','good'),
+            sensorTile('🧲','X',fv(s.LIS3MDL_X_uT),'µT','good'),
+            sensorTile('🧲','Y',fv(s.LIS3MDL_Y_uT),'µT','good'),
+            sensorTile('🧲','Z',fv(s.LIS3MDL_Z_uT),'µT','good'),
+            sensorTile('🧭','Hdg',fv(s.LIS3MDL_Heading,1),'°','good'),
         ].join('');
         $('iBmm').innerHTML=[
-            sensorTile('đź§˛','X',fv(s.BMM350_Mag_X),'ÂµT','good'),
-            sensorTile('đź§˛','Y',fv(s.BMM350_Mag_Y),'ÂµT','good'),
-            sensorTile('đź§˛','Z',fv(s.BMM350_Mag_Z),'ÂµT','good'),
-            sensorTile('đź§­','Hdg',fv(s.BMM350_Heading_Deg,1),'Â°','good'),
+            sensorTile('🧲','X',fv(s.BMM350_Mag_X),'µT','good'),
+            sensorTile('🧲','Y',fv(s.BMM350_Mag_Y),'µT','good'),
+            sensorTile('🧲','Z',fv(s.BMM350_Mag_Z),'µT','good'),
+            sensorTile('🧭','Hdg',fv(s.BMM350_Heading_Deg,1),'°','good'),
         ].join('');
         $('iDerived').innerHTML=[
-            sensorTile('đź“','Tilt',fv(s.LSM6_Tilt_Deg,1),'Â°','good'),
-            sensorTile('ă€°ď¸Ź','Vibration',fv(s.LSM6_Vibration,3),'m/sÂ˛',s.LSM6_Vibration>0.5?'warn':'good'),
-            sensorTile('âšˇ','Shock',s.LSM6_Shock_Det?'YES':'No','',s.LSM6_Shock_Det?'danger':'good'),
-            sensorTile('đź§­','Cardinal',s.BMM350_Cardinal||'--','','good'),
+            sensorTile('📐','Tilt',fv(s.LSM6_Tilt_Deg,1),'°','good'),
+            sensorTile('〰️','Vibration',fv(s.LSM6_Vibration,3),'m/s²',s.LSM6_Vibration>0.5?'warn':'good'),
+            sensorTile('⚡','Shock',s.LSM6_Shock_Det?'YES':'No','',s.LSM6_Shock_Det?'danger':'good'),
+            sensorTile('🧭','Cardinal',s.BMM350_Cardinal||'--','','good'),
         ].join('');
     });
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-// SESSION CHARTS â€” 10-min rolling sparklines
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ═══════════════════════════════════════════════
+// SESSION CHARTS — 10-min rolling sparklines
+// ═══════════════════════════════════════════════
 const CHART_HISTORY = {};
 const CHART_MAX = 60; // 60 samples @ ~10s = 10 min
 const CHART_DEFS = [
-    {key:'SHT45_Temp',      label:'Temperature',   unit:'Â°C',   color:'#f97316'},
-    {key:'METEO_Feels_Like_C',label:'Feels Like',  unit:'Â°C',   color:'#fb923c'},
+    {key:'SHT45_Temp',      label:'Temperature',   unit:'°C',   color:'#f97316'},
+    {key:'METEO_Feels_Like_C',label:'Feels Like',  unit:'°C',   color:'#fb923c'},
     {key:'SHT45_Hum',       label:'Humidity',      unit:'%',    color:'#38bdf8'},
-    {key:'SCD41_CO2_ppm',   label:'COâ‚‚',           unit:'ppm',  color:'#a3e635'},
+    {key:'SCD41_CO2_ppm',   label:'CO₂',           unit:'ppm',  color:'#a3e635'},
     {key:'BME688_IAQ',      label:'IAQ',           unit:'',     color:'#34d399'},
-    {key:'BMV080_PM2_5',    label:'PM2.5',         unit:'Âµg/mÂł',color:'#f43f5e'},
+    {key:'BMV080_PM2_5',    label:'PM2.5',         unit:'µg/m³',color:'#f43f5e'},
     {key:'SGP41_VOC_Index', label:'VOC Index',     unit:'',     color:'#c084fc'},
     {key:'BMP585_Pressure_hPa',label:'Pressure',   unit:'hPa',  color:'#94a3b8'},
-    {key:'Geiger_uSvh',     label:'Radiation',     unit:'ÂµSv/h',color:'#facc15'},
+    
     {key:'BMS_State_Of_Charge',label:'Battery',    unit:'%',    color:'#4ade80'},
     {key:'SOLAR_Power_mW',  label:'Solar Power',   unit:'mW',   color:'#fde68a'},
     {key:'LTR390_UVI',      label:'UV Index',      unit:'',     color:'#e879f9'},
@@ -1196,7 +1196,7 @@ function loadCharts(){
             </div>
         </div>
     `).join('');
-    createWindow('charts-win','Session Charts','đź“',100,50,
+    createWindow('charts-win','Session Charts','📈',100,50,
         `<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">${cards}</div>
          <div style="font-size:10px;color:var(--text-muted);margin-top:6px;text-align:center">Rolling 10-min session history (current session only)</div>`,
         w);
@@ -1252,9 +1252,9 @@ function pollCharts(){
     setTimeout(pollCharts,10000);
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-// AUTH â€” password modal for System panel
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ═══════════════════════════════════════════════
+// AUTH — password modal for System panel
+// ═══════════════════════════════════════════════
 const SYS_PASS = 'atlas2025';   // change as needed
 let sysUnlocked = false;
 
@@ -1280,10 +1280,10 @@ function showPassModal(onSuccess){
         <div style="background:rgba(28,28,44,.96);border:1px solid rgba(255,255,255,.12);
                     border-radius:18px;padding:32px 28px;width:320px;max-width:92vw;
                     box-shadow:0 20px 60px rgba(0,0,0,.5);animation:winIn .3s ease">
-            <div style="font-size:24px;text-align:center;margin-bottom:6px">đź”’</div>
+            <div style="font-size:24px;text-align:center;margin-bottom:6px">🔒</div>
             <div style="font-size:14px;font-weight:600;color:var(--text);text-align:center;margin-bottom:4px">System Access</div>
             <div style="font-size:11px;color:var(--text-muted);text-align:center;margin-bottom:20px">Enter the system password to continue</div>
-            <input id="pass-inp" type="password" placeholder="Passwordâ€¦"
+            <input id="pass-inp" type="password" placeholder="Password…"
                    style="text-align:center;font-size:14px;letter-spacing:.2em;margin-bottom:12px"
                    onkeydown="if(event.key==='Enter')$('pass-ok').click()">
             <div id="pass-err" style="color:var(--danger);font-size:11px;text-align:center;height:16px;margin-bottom:8px"></div>
@@ -1319,10 +1319,10 @@ function lockSys(){
 }
 
 const MODE_BTN_MAP = {
-    'Continuous':   {action:'mode_cont',  label:'â—‰ Continuous',  id:'mbtn_cont'},
-    'Light_Sleep':  {action:'mode_light', label:'đźŚ™ Light Sleep', id:'mbtn_light'},
-    'Deep_Sleep':   {action:'mode_deep',  label:'đź’¤ Deep Sleep',  id:'mbtn_deep'},
-    'Maintenance':  {action:'mode_maint', label:'đź”§ Maintenance', id:'mbtn_maint'},
+    'Continuous':   {action:'mode_cont',  label:'◉ Continuous',  id:'mbtn_cont'},
+    'Light_Sleep':  {action:'mode_light', label:'🌙 Light Sleep', id:'mbtn_light'},
+    'Deep_Sleep':   {action:'mode_deep',  label:'💤 Deep Sleep',  id:'mbtn_deep'},
+    'Maintenance':  {action:'mode_maint', label:'🔧 Maintenance', id:'mbtn_maint'},
 };
 function setModeBtn(modeStr){
     Object.values(MODE_BTN_MAP).forEach(m=>{
@@ -1343,36 +1343,36 @@ function cmdMode(action){
 }
 
 function _buildSysWindow(){
-    createWindow('sys-win','System (Unlocked)','âš™ď¸Ź',60,60,`
-        <div class="card"><div class="card-title">đź©ş System Health</div><div id="sHealth">Checkingâ€¦</div></div>
-        <div class="card"><div class="card-title">đźŽŻ Operating Mode</div>
-            <div id="sModeNow" style="font-size:11px;color:var(--text-dim);margin-bottom:7px">Current: <b id="sModeName">loadingâ€¦</b></div>
+    createWindow('sys-win','System (Unlocked)','⚙️',60,60,`
+        <div class="card"><div class="card-title">🩺 System Health</div><div id="sHealth">Checking…</div></div>
+        <div class="card"><div class="card-title">🎯 Operating Mode</div>
+            <div id="sModeNow" style="font-size:11px;color:var(--text-dim);margin-bottom:7px">Current: <b id="sModeName">loading…</b></div>
             <div class="btn-group">
-                <button id="mbtn_cont"  class="btn mode-btn" onclick="cmdMode('mode_cont')">â—‰ Continuous</button>
-                <button id="mbtn_light" class="btn mode-btn" onclick="cmdMode('mode_light')">đźŚ™ Light Sleep</button>
-                <button id="mbtn_deep"  class="btn mode-btn" onclick="cmdMode('mode_deep')">đź’¤ Deep Sleep</button>
-                <button id="mbtn_maint" class="btn mode-btn" onclick="cmdMode('mode_maint')">đź”§ Maintenance</button>
+                <button id="mbtn_cont"  class="btn mode-btn" onclick="cmdMode('mode_cont')">◉ Continuous</button>
+                <button id="mbtn_light" class="btn mode-btn" onclick="cmdMode('mode_light')">🌙 Light Sleep</button>
+                <button id="mbtn_deep"  class="btn mode-btn" onclick="cmdMode('mode_deep')">💤 Deep Sleep</button>
+                <button id="mbtn_maint" class="btn mode-btn" onclick="cmdMode('mode_maint')">🔧 Maintenance</button>
             </div>
         </div>
-        <div class="card"><div class="card-title">đź”§ Hardware Controls</div>
+        <div class="card"><div class="card-title">🔧 Hardware Controls</div>
             <div class="btn-group">
-                <button class="btn" onclick="openI2CScan()">đź“ˇ I2C Scanner</button>
-                <button class="btn" onclick="cmd('read_all')">đź“Ą Read Sensors</button>
-                <button class="btn" onclick="cmd('init_sensors')">đź”„ Re-Init HW</button>
-                <button class="btn" onclick="cmd('stop_sensors')">đź’¤ Sleep Sensors</button>
+                <button class="btn" onclick="openI2CScan()">📡 I2C Scanner</button>
+                <button class="btn" onclick="cmd('read_all')">📥 Read Sensors</button>
+                <button class="btn" onclick="cmd('init_sensors')">🔄 Re-Init HW</button>
+                <button class="btn" onclick="cmd('stop_sensors')">💤 Sleep Sensors</button>
             </div>
         </div>
-        <div class="card"><div class="card-title">âš ď¸Ź Danger Zone</div>
+        <div class="card"><div class="card-title">⚠️ Danger Zone</div>
             <div class="btn-group">
-                <button class="btn danger" onclick="cmd('reset_i2c')">âšˇ Reset I2C</button>
-                <button class="btn danger" onclick="cmd('reboot')">đź” Reboot</button>
-                <button class="btn danger" onclick="cmd('factory_reset')">đź—‘ Factory Reset</button>
-                <button class="btn" onclick="lockSys()" style="margin-left:auto">đź”’ Lock</button>
+                <button class="btn danger" onclick="cmd('reset_i2c')">⚡ Reset I2C</button>
+                <button class="btn danger" onclick="cmd('reboot')">🔁 Reboot</button>
+                <button class="btn danger" onclick="cmd('factory_reset')">🗑 Factory Reset</button>
+                <button class="btn" onclick="lockSys()" style="margin-left:auto">🔒 Lock</button>
             </div>
         </div>
-        <div class="card"><div class="card-title">đź“¦ OTA Firmware Update</div>
+        <div class="card"><div class="card-title">📦 OTA Firmware Update</div>
             <input type="file" id="otafile" accept=".bin" style="margin-bottom:7px">
-            <button class="btn accent" onclick="uploadOTA()" style="width:100%">â¬†ď¸Ź Flash Firmware</button>
+            <button class="btn accent" onclick="uploadOTA()" style="width:100%">⬆️ Flash Firmware</button>
             <div id="ota-prog"></div>
         </div>
     `,360);
@@ -1382,10 +1382,10 @@ function _buildSysWindow(){
         let faults=[],ok=[];
         Object.keys(s).filter(k=>k.startsWith('Fault_')).forEach(k=>{
             const name=k.replace('Fault_','');
-            if(s[k]==='ON'||s[k]===true||s[k]==='true') faults.push(`<span style="color:var(--danger);font-size:11px;margin:2px">âš  ${name}</span>`);
-            else ok.push(`<span style="color:var(--accent);font-size:10px;opacity:.6;margin:2px">âś“ ${name}</span>`);
+            if(s[k]==='ON'||s[k]===true||s[k]==='true') faults.push(`<span style="color:var(--danger);font-size:11px;margin:2px">⚠ ${name}</span>`);
+            else ok.push(`<span style="color:var(--accent);font-size:10px;opacity:.6;margin:2px">✓ ${name}</span>`);
         });
-        const h=$('sHealth'); if(h) h.innerHTML=(faults.length?faults.join(' '):'<span style="color:var(--accent)">âś“ All systems nominal</span>')+'<div style="margin-top:6px">'+ok.join(' ')+'</div>';
+        const h=$('sHealth'); if(h) h.innerHTML=(faults.length?faults.join(' '):'<span style="color:var(--accent)">✓ All systems nominal</span>')+'<div style="margin-top:6px">'+ok.join(' ')+'</div>';
         // Mode buttons
         const modeName = s.System_Mode || d.system_mode || '';
         const mn=$('sModeName'); if(mn) mn.textContent=modeName||'unknown';
@@ -1400,9 +1400,9 @@ function _buildSysWindow(){
     });
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-// I2C SCANNER v2 â€” tooltips, fault dots, EEPROM toggle, discovery
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ═══════════════════════════════════════════════════════════════════
+// I2C SCANNER v2 — tooltips, fault dots, EEPROM toggle, discovery
+// ═══════════════════════════════════════════════════════════════════
 
 // Full I2C address map (Adafruit + community 2025 list + project specifics)
 const I2C_DB = {
@@ -1483,14 +1483,14 @@ let _i2cFaultData = {};
 function openI2CScan(){
     const vw=window.innerWidth, w=Math.min(vw-16,860);
     if($('i2c-win')){ focusWin('i2c-win'); return; }
-    createWindow('i2c-win','I2C Bus Scanner','đź“ˇ',20,40,`
+    createWindow('i2c-win','I2C Bus Scanner','📡',20,40,`
         <div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-bottom:10px">
-            <button class="btn accent" id="scan-btn" onclick="runI2CScan()" style="flex:1;min-width:120px">â–¶ Scan</button>
-            <button class="btn" id="disc-btn" onclick="runDiscovery()" title="Try all known sensor addresses on every MUX channel">đź”Ť Discovery</button>
+            <button class="btn accent" id="scan-btn" onclick="runI2CScan()" style="flex:1;min-width:120px">▶ Scan</button>
+            <button class="btn" id="disc-btn" onclick="runDiscovery()" title="Try all known sensor addresses on every MUX channel">🔍 Discovery</button>
             <label style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text-dim);cursor:pointer;user-select:none">
                 <input type="checkbox" id="excl50" checked style="width:13px;height:13px;accent-color:var(--accent)"> Exclude 0x50 (EEPROM)
             </label>
-            <button class="btn" onclick="copyI2CScan()">đź“‹ JSON</button>
+            <button class="btn" onclick="copyI2CScan()">📋 JSON</button>
             <span id="scan-status" style="font-size:10px;color:var(--text-dim);white-space:nowrap"></span>
         </div>
         <!-- Legend -->
@@ -1499,7 +1499,7 @@ function openI2CScan(){
             <span><span class="i2c-dot bad" style="display:inline-block;vertical-align:middle;margin-right:3px"></span>Fault / error</span>
             <span><span class="i2c-dot unknown" style="display:inline-block;vertical-align:middle;margin-right:3px"></span>Present, unassigned</span>
             <span><span class="i2c-dot unassigned" style="display:inline-block;vertical-align:middle;margin-right:3px"></span>In DB, not seen</span>
-            <span>âť“ hover for info</span>
+            <span>❓ hover for info</span>
         </div>
         <div id="i2c-result" style="font-size:11px;min-height:200px"></div>
         <div id="disc-result" style="font-size:11px;margin-top:10px"></div>
@@ -1546,18 +1546,18 @@ function i2cAddrHTML(a, muxCol){
 function runI2CScan(){
     const btn=$('scan-btn'), st=$('scan-status'), res=$('i2c-result');
     if(!res) return;
-    if(btn){ btn.disabled=true; btn.textContent='âŹł Scanningâ€¦'; }
+    if(btn){ btn.disabled=true; btn.textContent='⏳ Scanning…'; }
     if(st) st.textContent='';
-    res.innerHTML=`<div style="color:var(--text-dim);padding:12px 0">âŹł Scanning all MUX channelsâ€¦</div>`;
+    res.innerHTML=`<div style="color:var(--text-dim);padding:12px 0">⏳ Scanning all MUX channels…</div>`;
     fetch('/api').then(r=>r.json()).then(d=>{ _i2cFaultData=d.sensors||{}; }).catch(()=>{});
     const t0=Date.now();
     fetch('/scan_json').then(r=>r.json()).then(data=>{
         if(st) st.textContent=`Done in ${Date.now()-t0}ms`;
-        if(btn){ btn.disabled=false; btn.textContent='â–¶ Scan'; }
+        if(btn){ btn.disabled=false; btn.textContent='▶ Scan'; }
         renderI2CScan(data);
     }).catch(err=>{
-        if(btn){ btn.disabled=false; btn.textContent='â–¶ Scan'; }
-        if(res) res.innerHTML=`<div style="color:var(--danger)">âś— ${err}</div>`;
+        if(btn){ btn.disabled=false; btn.textContent='▶ Scan'; }
+        if(res) res.innerHTML=`<div style="color:var(--danger)">✗ ${err}</div>`;
     });
 }
 
@@ -1571,7 +1571,7 @@ function renderI2CScan(data){
         html+=`<div style="margin-bottom:14px">
             <div style="font-weight:700;color:${col};margin-bottom:7px;font-size:12px;
                 border-bottom:1px solid rgba(255,255,255,.07);padding-bottom:4px">
-                â–  MUX ${mux.addr}</div>`;
+                ■ MUX ${mux.addr}</div>`;
         if(mux.channels) mux.channels.forEach(ch=>{
             const devs=ch.devices||[], offline=ch.status==='OFFLINE';
             html+=`<div style="display:flex;align-items:center;gap:6px;padding:4px 0;
@@ -1594,7 +1594,7 @@ function renderI2CScan(data){
     if(data.main_bus){
         const mb=data.main_bus.devices||[];
         html+=`<div style="margin-top:8px;padding-top:8px;border-top:1px solid rgba(255,255,255,.08)">
-            <div style="font-weight:700;color:#94a3b8;margin-bottom:7px;font-size:12px">â–  Main Bus (direct)</div>
+            <div style="font-weight:700;color:#94a3b8;margin-bottom:7px;font-size:12px">■ Main Bus (direct)</div>
             <div style="display:flex;flex-wrap:wrap;gap:3px">
             ${mb.length?mb.map(a=>i2cAddrHTML(a,'#94a3b8')).join(''):`<span style="color:var(--text-muted);font-style:italic;font-size:11px">No devices</span>`}
             </div></div>`;
@@ -1604,18 +1604,18 @@ function renderI2CScan(data){
     res.dataset.raw=JSON.stringify(data,null,2);
 }
 
-// â”€â”€ Discovery scan: try all known addresses on every MUX/CH â”€â”€
+// ── Discovery scan: try all known addresses on every MUX/CH ──
 async function runDiscovery(){
     const btn=$('disc-btn'), res=$('disc-result');
     if(!res) return;
-    if(btn){ btn.disabled=true; btn.textContent='âŹł Discoveringâ€¦'; }
+    if(btn){ btn.disabled=true; btn.textContent='⏳ Discovering…'; }
     res.innerHTML=`<div style="border-top:1px solid rgba(255,255,255,.1);padding-top:10px;margin-top:4px">
-        <div style="font-size:12px;font-weight:700;color:#f59e0b;margin-bottom:8px">đź”Ť Discovery Scan</div>
-        <div style="color:var(--text-dim);font-size:11px">Querying /scan_json for all addressesâ€¦</div></div>`;
+        <div style="font-size:12px;font-weight:700;color:#f59e0b;margin-bottom:8px">🔍 Discovery Scan</div>
+        <div style="color:var(--text-dim);font-size:11px">Querying /scan_json for all addresses…</div></div>`;
 
     let scanData;
     try { scanData = await fetch('/scan_json').then(r=>r.json()); }
-    catch(e){ res.innerHTML=`<div style="color:var(--danger)">Discovery failed: ${e}</div>`; if(btn){btn.disabled=false;btn.textContent='đź”Ť Discovery';} return; }
+    catch(e){ res.innerHTML=`<div style="color:var(--danger)">Discovery failed: ${e}</div>`; if(btn){btn.disabled=false;btn.textContent='🔍 Discovery';} return; }
 
     // Build flat map: mux+ch -> [addr]
     const found = {}; // key=addr -> [{mux,ch}]
@@ -1630,7 +1630,7 @@ async function runDiscovery(){
 
     // Compare against expected map
     let html=`<div style="border-top:1px solid rgba(255,255,255,.1);padding-top:10px;margin-top:4px">
-        <div style="font-size:12px;font-weight:700;color:#f59e0b;margin-bottom:8px">đź”Ť Discovery Report</div>`;
+        <div style="font-size:12px;font-weight:700;color:#f59e0b;margin-bottom:8px">🔍 Discovery Report</div>`;
 
     let issues=0;
     EXPECTED_MAP.forEach(exp=>{
@@ -1641,14 +1641,14 @@ async function runDiscovery(){
             issues++;
             if(onOther.length){
                 html+=`<div class="disc-item disc-found">
-                    <span style="color:#f59e0b;font-weight:700">âš  ${exp.sensor}</span>
-                    <span style="color:var(--text-dim)"> expected at MUX ${exp.mux} CH${exp.ch} â€” </span>
+                    <span style="color:#f59e0b;font-weight:700">⚠ ${exp.sensor}</span>
+                    <span style="color:var(--text-dim)"> expected at MUX ${exp.mux} CH${exp.ch} — </span>
                     <span style="color:#22c55e">found at: ${onOther.map(l=>`MUX ${l.mux} CH${l.ch}`).join(', ')}</span>
                     <div style="color:var(--text-muted);font-size:10px;margin-top:2px">Address ${exp.addr} (${I2C_DB[exp.addr]?I2C_DB[exp.addr].desc:'?'})</div>
                 </div>`;
             } else {
                 html+=`<div class="disc-item disc-miss">
-                    <span style="color:#ef4444;font-weight:700">âś— ${exp.sensor}</span>
+                    <span style="color:#ef4444;font-weight:700">✗ ${exp.sensor}</span>
                     <span style="color:var(--text-dim)"> not found anywhere</span>
                     <div style="color:var(--text-muted);font-size:10px;margin-top:2px">Expected: MUX ${exp.mux} CH${exp.ch} @ ${exp.addr}</div>
                 </div>`;
@@ -1670,7 +1670,7 @@ async function runDiscovery(){
         }
     });
     if(unexpected.length){
-        html+=`<div style="margin-top:8px;font-size:11px;font-weight:700;color:#a78bfa">đź†• Unexpected / unassigned devices:</div>`;
+        html+=`<div style="margin-top:8px;font-size:11px;font-weight:700;color:#a78bfa">🆕 Unexpected / unassigned devices:</div>`;
         unexpected.forEach(u=>{
             html+=`<div class="disc-item" style="border-left:3px solid #a78bfa;margin-top:4px">
                 <span style="color:#a78bfa;font-weight:700">${u.addr}</span>
@@ -1682,12 +1682,12 @@ async function runDiscovery(){
     }
 
     if(!issues && !unexpected.length){
-        html+=`<div style="color:#22c55e;font-size:11px;padding:8px 0">âś“ All expected sensors found on correct MUX/CH. No anomalies detected.</div>`;
+        html+=`<div style="color:#22c55e;font-size:11px;padding:8px 0">✓ All expected sensors found on correct MUX/CH. No anomalies detected.</div>`;
     }
 
-    html+=`<div style="font-size:10px;color:var(--text-muted);margin-top:8px;text-align:right">${Object.values(found).flat().length} device-slots found Â· ${EXPECTED_MAP.length} expected</div></div>`;
+    html+=`<div style="font-size:10px;color:var(--text-muted);margin-top:8px;text-align:right">${Object.values(found).flat().length} device-slots found · ${EXPECTED_MAP.length} expected</div></div>`;
     res.innerHTML=html;
-    if(btn){ btn.disabled=false; btn.textContent='đź”Ť Discovery'; }
+    if(btn){ btn.disabled=false; btn.textContent='🔍 Discovery'; }
 }
 
 function copyI2CScan(){
@@ -1696,18 +1696,18 @@ function copyI2CScan(){
     if(raw) navigator.clipboard?.writeText(raw).then(()=>showToast('Scan copied (JSON)'));
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-// LOGS â€” wide, scrollable, copy on select
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ═══════════════════════════════════════════════
+// LOGS — wide, scrollable, copy on select
+// ═══════════════════════════════════════════════
 let logsRunning=false;
 function loadLogs(){
     const vw=window.innerWidth, w=Math.min(vw-16,900);
-    createWindow('log-win','Live Log Stream','đź“ś',30,40,`
+    createWindow('log-win','Live Log Stream','📜',30,40,`
         <div class="log-toolbar">
-            <input class="log-search" id="logSearch" placeholder="đź”Ť Filter logâ€¦" oninput="filterLog()">
+            <input class="log-search" id="logSearch" placeholder="🔍 Filter log…" oninput="filterLog()">
             <button class="btn accent" onclick="clearLog()">Clear</button>
-            <button class="btn" onclick="scrollLogBottom()">â¬‡ End</button>
-            <button class="btn" onclick="pasteLog()">đź“‹ Copy All</button>
+            <button class="btn" onclick="scrollLogBottom()">⬇ End</button>
+            <button class="btn" onclick="pasteLog()">📋 Copy All</button>
         </div>
         <div id="log-terminal" onmouseup="autoSelectCopy()"></div>
     `,w);
@@ -1760,14 +1760,14 @@ function uploadOTA(){
     const fd=new FormData(); fd.append('update',f.files[0]);
     const xhr=new XMLHttpRequest(); xhr.open('POST','/update',true);
     xhr.upload.onprogress=e=>{if(e.lengthComputable) $('ota-prog').textContent=(e.loaded/e.total*100).toFixed(1)+'%';};
-    xhr.onload=()=>{$('ota-prog').textContent=xhr.status===200?'âś“ SUCCESS â€” rebootingâ€¦':'âś— FAILED';};
+    xhr.onload=()=>{$('ota-prog').textContent=xhr.status===200?'✓ SUCCESS — rebooting…':'✗ FAILED';};
     xhr.send(fd);
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-// đźŹĄ MEDICAL DASHBOARD â€“ human-readable, risk-oriented
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-// â”€â”€ Risk card (hero version for Medical panel) â”€â”€
+// ═══════════════════════════════════════════════════════════════════
+// 🏥 MEDICAL DASHBOARD – human-readable, risk-oriented
+// ═══════════════════════════════════════════════════════════════════
+// ── Risk card (hero version for Medical panel) ──
 function riskCard(icon,label,val,unit,cat,warnAt,dangerAt,maxVal,desc){
     const n = (val!=null&&val!==undefined) ? parseFloat(val) : null;
     const safe = n!=null && Number.isFinite(n);
@@ -1814,9 +1814,9 @@ function riskCard(icon,label,val,unit,cat,warnAt,dangerAt,maxVal,desc){
 
 function loadMedical(){
     const vw=window.innerWidth, w=Math.min(vw-16,520);
-    createWindow('med-win','đźŹĄ '+t('medical'),'đźŹĄ',20,40,`
+    createWindow('med-win','🏥 '+t('medical'),'🏥',20,40,`
         <div id="medGrid" style="color:var(--text-muted);font-size:11px;text-align:center;padding:20px">
-            âŹł Loadingâ€¦
+            ⏳ Loading…
         </div>
     `,w);
     fetch('/api').then(r=>r.json()).then(d=>{
@@ -1830,7 +1830,7 @@ function loadMedical(){
             const c=ba==='HIGH'?'#ef4444':'#f59e0b';
             html+=`<div style="background:${c}18;border:1px solid ${c}44;border-radius:10px;
                 padding:12px 14px;margin-bottom:12px;display:flex;align-items:center;gap:10px">
-                <span style="font-size:22px">${ba==='HIGH'?'đźš¨':'âš ď¸Ź'}</span>
+                <span style="font-size:22px">${ba==='HIGH'?'🚨':'⚠️'}</span>
                 <div>
                     <div style="font-size:12px;font-weight:700;color:${c}">${t('biometeo')}: ${ba}</div>
                     <div style="font-size:10px;color:var(--text-dim)">Score: ${s.MED_Biometeo_Score!=null?(+s.MED_Biometeo_Score).toFixed(1)+'/10':''}</div>
@@ -1841,42 +1841,42 @@ function loadMedical(){
         // Section: Pain & Pressure Sensitivity
         html+=`<div style="font-size:10px;font-weight:700;color:var(--text-muted);text-transform:uppercase;
             letter-spacing:.7px;margin:0 0 8px;padding-bottom:4px;border-bottom:1px solid rgba(255,255,255,.07)">
-            đź©ş Pain & Pressure Sensitivity</div>`;
-        html+=riskCard('đź§ ',t('migraine'),s.MED_Migraine_Risk,'/10',s.MED_Migraine_Cat,5,7,10,'Barometric + humidity driver');
-        html+=riskCard('đź¦´',t('rheum'),s.MED_Rheumatic_Risk,'/10',s.MED_Rheumatic_Cat,5,7,10,'Joint & tissue pressure sensitivity');
-        html+=riskCard('đź“Š',t('bpi'),s.MED_Baro_Pain_Index,'/10',null,6,8,10,'Shutty chronic pain index');
-        html+=riskCard('đź‘',t('sinus'),s.MED_Sinus_Risk,'/10',null,4,7,10,'Pressure delta + humidity');
+            🩺 Pain & Pressure Sensitivity</div>`;
+        html+=riskCard('🧠',t('migraine'),s.MED_Migraine_Risk,'/10',s.MED_Migraine_Cat,5,7,10,'Barometric + humidity driver');
+        html+=riskCard('🦴',t('rheum'),s.MED_Rheumatic_Risk,'/10',s.MED_Rheumatic_Cat,5,7,10,'Joint & tissue pressure sensitivity');
+        html+=riskCard('📊',t('bpi'),s.MED_Baro_Pain_Index,'/10',null,6,8,10,'Shutty chronic pain index');
+        html+=riskCard('👃',t('sinus'),s.MED_Sinus_Risk,'/10',null,4,7,10,'Pressure delta + humidity');
 
         // Section: Respiratory
         html+=`<div style="font-size:10px;font-weight:700;color:var(--text-muted);text-transform:uppercase;
             letter-spacing:.7px;margin:12px 0 8px;padding-bottom:4px;border-bottom:1px solid rgba(255,255,255,.07)">
-            đź« Respiratory & Air Quality</div>`;
-        html+=riskCard('đź«',t('lung')+' Rest',s.MED_Lung_Deposit_Rest,'Âµg/min',null,0.3,0.8,2,'ICRP alveolar deposition model');
-        html+=riskCard('đź«',t('lung')+' Exercise',s.MED_Lung_Deposit_Exer,'Âµg/min',null,0.8,2.0,5,'During physical activity');
-        html+=riskCard('đźŚż','IAQ Score',s.GAS_IAQ_Score,'/100',s.GAS_Toxicity_Name,
+            🫁 Respiratory & Air Quality</div>`;
+        html+=riskCard('🫁',t('lung')+' Rest',s.MED_Lung_Deposit_Rest,'µg/min',null,0.3,0.8,2,'ICRP alveolar deposition model');
+        html+=riskCard('🫁',t('lung')+' Exercise',s.MED_Lung_Deposit_Exer,'µg/min',null,0.8,2.0,5,'During physical activity');
+        html+=riskCard('🌿','IAQ Score',s.GAS_IAQ_Score,'/100',s.GAS_Toxicity_Name,
             s.GAS_IAQ_Score>50?50:s.GAS_IAQ_Score,25,100,'BSEC AI indoor air quality');
-        html+=riskCard('đź’¨','Gas Toxicity',s.GAS_Toxicity_Risk,'/10',s.GAS_Toxicity_Name,5,7,10,'Pattern-based gas hazard');
-        html+=riskCard('đź’§','Required ACH',s.MED_Required_ACH,'/h',null,3,8,12,'Air changes/h needed for COâ‚‚ dilution');
+        html+=riskCard('💨','Gas Toxicity',s.GAS_Toxicity_Risk,'/10',s.GAS_Toxicity_Name,5,7,10,'Pattern-based gas hazard');
+        html+=riskCard('💧','Required ACH',s.MED_Required_ACH,'/h',null,3,8,12,'Air changes/h needed for CO₂ dilution');
 
         // Section: Radiation & Environment
         html+=`<div style="font-size:10px;font-weight:700;color:var(--text-muted);text-transform:uppercase;
             letter-spacing:.7px;margin:12px 0 8px;padding-bottom:4px;border-bottom:1px solid rgba(255,255,255,.07)">
-            â˘ď¸Ź Radiation & Thermal</div>`;
-        html+=riskCard('â˘ď¸Ź','Radiation Dose',s.Geiger_uSvh,'ÂµSv/h',null,0.2,0.5,1.0,'Background / natural limit');
-        html+=riskCard('đźŚˇď¸Ź',t('utci'),s.MED_UTCI_C,'Â°C',s.MED_UTCI_Cat,-5,32,50,'Universal Thermal Climate Index');
-        html+=riskCard('đźŹ ',t('radon'),s.MED_Radon_Risk,'/10',null,5,7.5,10,'Radon accumulation proxy');
+            ☢️ Radiation & Thermal</div>`;
+        
+        html+=riskCard('🌡️',t('utci'),s.MED_UTCI_C,'°C',s.MED_UTCI_Cat,-5,32,50,'Universal Thermal Climate Index');
+        html+=riskCard('🏠',t('radon'),s.MED_Radon_Risk,'/10',null,5,7.5,10,'Radon accumulation proxy');
 
         g.style.display='block'; g.innerHTML=html;
     }).catch(()=>{ const g=$('medGrid'); if(g) g.innerHTML='<div style="color:var(--danger)">Connection error</div>'; });
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-// đźŚŚ SPACE WEATHER DASHBOARD
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ═══════════════════════════════════════════════════════════════════
+// 🌌 SPACE WEATHER DASHBOARD
+// ═══════════════════════════════════════════════════════════════════
 function loadSpaceWeather(){
     const vw=window.innerWidth, w=Math.min(vw-16,520);
-    createWindow('space-win','đźŚŚ '+t('space'),'đźŚŚ',40,40,`
-        <div id="spaceGrid"><div style="color:var(--text-muted);padding:20px;text-align:center">âŹł Loadingâ€¦</div></div>
+    createWindow('space-win','🌌 '+t('space'),'🌌',40,40,`
+        <div id="spaceGrid"><div style="color:var(--text-muted);padding:20px;text-align:center">⏳ Loading…</div></div>
     `,w);
     fetch('/api').then(r=>r.json()).then(d=>{
         const s=d.sensors||{};
@@ -1903,7 +1903,7 @@ function loadSpaceWeather(){
         const aurColor = aur>50?'#818cf8':aur>10?'#a78bfa':'#4ade80';
         html+=`<div style="background:rgba(0,0,0,.22);border-radius:12px;padding:14px;margin-bottom:8px">
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
-                <div style="font-size:12px;font-weight:600;color:var(--text)">đźŚŚ ${t('aurora')}</div>
+                <div style="font-size:12px;font-weight:600;color:var(--text)">🌌 ${t('aurora')}</div>
                 <div style="font-size:22px;font-weight:800;color:${aurColor}">${fv(s.SPACE_Aurora_Prob_Pct,1)}%</div>
             </div>
             <div style="background:rgba(255,255,255,.07);border-radius:4px;height:8px;overflow:hidden;margin-bottom:8px">
@@ -1917,51 +1917,48 @@ function loadSpaceWeather(){
 
         // Forbush
         const fbColor = fb<-8?'#ff4757':fb<-5?'#ffa502':fb<-2?'#f59e0b':'#4ade80';
-        html+=bigCard('â˘ď¸Ź',t('forbush'),fv(s.SPACE_Forbush_Pct,1)+'%',
+        html+=bigCard('☢️',t('forbush'),fv(s.SPACE_Forbush_Pct,1)+'%',
             s.SPACE_Forbush_Class||'Normal',null,fbColor,fb<-5?'danger':fb<-2?'warn':'good');
 
         // Ozone
-        html+=bigCard('đź”µ',t('ozone'),fvi(s.SPACE_Ozone_DU||s.SPACE_Ozone_DU_Proxy),'DU',
+        html+=bigCard('🔵',t('ozone'),fvi(s.SPACE_Ozone_DU||s.SPACE_Ozone_DU_Proxy),'DU',
             'Stratospheric proxy','#38bdf8','good');
 
-        // GCR Radiation
-        html+=bigCard('âšˇ','Cosmic Ray Flux',fv(s.Geiger_CPM_Corrected,0),'CPM (corrected)',
-            `GCR: ${fv(s.Geiger_uSvh,3)} ÂµSv/h`,'#facc15',
-            +s.Geiger_uSvh>0.5?'danger':+s.Geiger_uSvh>0.2?'warn':'good');
+        
 
         // Magnetic field
         html+=`<div style="background:rgba(0,0,0,.22);border-radius:12px;padding:14px;margin-bottom:8px">
-            <div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">đź§˛ Magnetic Field (BMM350)</div>
+            <div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">🧲 Magnetic Field (BMM350)</div>
             <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;text-align:center">
                 ${['X','Y','Z'].map((ax,i)=>{
                     const v=[s.BMM350_Mag_X,s.BMM350_Mag_Y,s.BMM350_Mag_Z][i];
                     return `<div style="background:rgba(255,255,255,.05);border-radius:8px;padding:8px">
-                        <div style="font-size:9px;color:var(--text-muted)">${ax} [ÂµT]</div>
+                        <div style="font-size:9px;color:var(--text-muted)">${ax} [µT]</div>
                         <div style="font-size:16px;font-weight:700;color:#818cf8">${fv(v,2)}</div>
                     </div>`;
                 }).join('')}
             </div>
             <div style="text-align:center;margin-top:8px;font-size:13px;color:var(--text)">
-                |B| = <strong style="color:#818cf8">${fv(s.SPACE_B_Total_uT,2)} ÂµT</strong> &nbsp;
-                Heading: <strong>${fv(s.BMM350_Heading_Deg,1)}Â° ${s.BMM350_Cardinal||''}</strong>
+                |B| = <strong style="color:#818cf8">${fv(s.SPACE_B_Total_uT,2)} µT</strong> &nbsp;
+                Heading: <strong>${fv(s.BMM350_Heading_Deg,1)}° ${s.BMM350_Cardinal||''}</strong>
             </div>
         </div>`;
 
         // Solar AOD
-        html+=bigCard('đźŚž',t('aod'),fv(s.ASTRO_AOD,3),'',
+        html+=bigCard('🌞',t('aod'),fv(s.ASTRO_AOD,3),'',
             'Aerosol Optical Depth','#fbbf24',+s.ASTRO_AOD>0.4?'warn':'good');
 
         g.innerHTML=html;
     }).catch(()=>{ const g=$('spaceGrid'); if(g) g.innerHTML='<div style="color:var(--danger)">Error</div>'; });
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-// đźŚż ENVIRONMENTAL DASHBOARD
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ═══════════════════════════════════════════════════════════════════
+// 🌿 ENVIRONMENTAL DASHBOARD
+// ═══════════════════════════════════════════════════════════════════
 function loadEnviron(){
     const vw=window.innerWidth, w=Math.min(vw-16,560);
-    createWindow('env2-win','đźŚż '+t('environ'),'đźŚż',50,40,`
-        <div id="envGrid"><div style="color:var(--text-muted);padding:20px;text-align:center">âŹł</div></div>
+    createWindow('env2-win','🌿 '+t('environ'),'🌿',50,40,`
+        <div id="envGrid"><div style="color:var(--text-muted);padding:20px;text-align:center">⏳</div></div>
     `,w);
     fetch('/api').then(r=>r.json()).then(d=>{
         const s=d.sensors||{};
@@ -1973,8 +1970,8 @@ function loadEnviron(){
                            border:1px solid rgba(0,212,170,.2);border-radius:14px;padding:16px;margin-bottom:10px">
             <div style="display:flex;justify-content:space-between;align-items:flex-start">
                 <div>
-                    <div style="font-size:36px;font-weight:800;color:var(--accent)">${fv(s.SHT45_Temp,1)}Â°C</div>
-                    <div style="font-size:13px;color:var(--text-dim)">Feels ${fv(s.METEO_Feels_Like_C,1)}Â°C &nbsp; ${t('hum')}: ${fv(s.SHT45_Hum,0)}%</div>
+                    <div style="font-size:36px;font-weight:800;color:var(--accent)">${fv(s.SHT45_Temp,1)}°C</div>
+                    <div style="font-size:13px;color:var(--text-dim)">Feels ${fv(s.METEO_Feels_Like_C,1)}°C &nbsp; ${t('hum')}: ${fv(s.SHT45_Hum,0)}%</div>
                 </div>
                 <div style="text-align:right">
                     <div style="font-size:14px;color:var(--text-dim)">${s.MLX_Sky_Condition||'--'}</div>
@@ -1985,7 +1982,7 @@ function loadEnviron(){
         </div>`;
 
         // Air quality section
-        const eaqi=+s.AIR_EAQI_Index||0;
+        const eaqi=+(s.AIR_EAQI_Index || s.AIR_EPA_AQI)||0;
         const eaqiCol=eaqi>=5?'#ff4757':eaqi>=4?'#f97316':eaqi>=3?'#ffa502':eaqi>=2?'#facc15':'#4ade80';
         html+=`<div style="background:rgba(0,0,0,.22);border-radius:12px;padding:14px;margin-bottom:8px">
             <div style="display:flex;align-items:center;gap:12px">
@@ -1994,7 +1991,7 @@ function loadEnviron(){
                 <div>
                     <div style="font-size:12px;font-weight:600;color:var(--text)">${s.AIR_Quality_Status||'Unknown'}</div>
                     <div style="font-size:10px;color:var(--text-muted)">EAQI &nbsp;|&nbsp; WHO: ${fv(s.AIR_WHO_AQI_Pct,0)}% &nbsp;|&nbsp; IAQ: ${fvi(s.BME688_IAQ)}</div>
-                    <div style="font-size:10px;color:var(--text-muted)">Visibility: ${fv(s.AIR_Visibility_Km,1)} km &nbsp;|&nbsp; Smog: ${fv(s.AIR_Smog_Index,1)}</div>
+                    <div style="font-size:10px;color:var(--text-muted)">Visibility: ${fv(s.AIR_Visibility_Km,1)} km &nbsp;|&nbsp; Smog: ${fv(s.AIR_Smog_Index_Advanced,1)}</div>
                 </div>
             </div>
         </div>`;
@@ -2002,14 +1999,14 @@ function loadEnviron(){
         // PM + Gas grid
         html+=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">`;
         [
-            ['đźŚ«ď¸Ź','PM1.0',s.BMV080_PM1_0,'Âµg/mÂł',0],
-            ['đźŚ«ď¸Ź','PM2.5',s.BMV080_PM2_5,'Âµg/mÂł',35],
-            ['đźŚ«ď¸Ź','PM10',s.BMV080_PM10_0,'Âµg/mÂł',50],
-            ['đź«§','COâ‚‚ (NDIR)',s.SCD41_CO2_ppm,'ppm',1000],
-            ['đź’¨','VOC Index',s.SGP41_VOC_Index,'',150],
-            ['đź”¬','NOx Index',s.SGP41_NOx_Index,'',20],
-            ['đź§Ş','NO2',s.ZMOD4510_NO2_ppb,'ppb',50],
-            ['đźŚž','O3',s.ZMOD4510_O3_ppb,'ppb',70],
+            ['🌫️','PM1.0',s.BMV080_PM1_0,'µg/m³',0],
+            ['🌫️','PM2.5',s.BMV080_PM2_5,'µg/m³',35],
+            ['🌫️','PM10',s.BMV080_PM10_0,'µg/m³',50],
+            ['🫧','CO₂ (NDIR)',s.SCD41_CO2_ppm,'ppm',1000],
+            ['💨','VOC Index',s.SGP41_VOC_Index,'',150],
+            ['🔬','NOx Index',s.SGP41_NOx_Index,'',20],
+            ['🧪','NO2',s.ZMOD4510_NO2_ppb,'ppb',50],
+            ['🌞','O3',s.ZMOD4510_O3_ppb,'ppb',70],
         ].forEach(([ic,lb,val,un,thr])=>{
             if(val==null) return;
             const n=+val; const col=n>thr?'#ffa502':'#4ade80';
@@ -2023,18 +2020,18 @@ function loadEnviron(){
 
         // Weather details
         html+=`<div style="background:rgba(0,0,0,.22);border-radius:12px;padding:14px;margin-bottom:8px">
-            <div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">đźŚ¤ Meteorological Derived</div>
+            <div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">🌤 Meteorological Derived</div>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:11px">
                 ${[
-                    ['Dew Point',s.METEO_Dew_Point_C,'Â°C'],
-                    ['Wet Bulb',s.METEO_Wet_Bulb_C,'Â°C'],
+                    ['Dew Point',s.METEO_Dew_Point_C,'°C'],
+                    ['Wet Bulb',s.METEO_Wet_Bulb_C,'°C'],
                     ['Cloud Base',s.METEO_Cloud_Base_m,'m'],
                     ['LCL Alt.',s.METEO_LCL_m,'m'],
-                    ['Air Density',s.METEO_Air_Density,'kg/mÂł'],
-                    ['Î¸e Instab.',s.METEO_ThetaE_K,'K'],
+                    ['Air Density',s.METEO_Air_Density,'kg/m³'],
+                    ['θe Instab.',s.METEO_ThetaE_K,'K'],
                     ['Conv. Instab.',s.METEO_Conv_Instability,'/10'],
-                    ['GHI Solar',s.METEO_Solar_GHI_Wm2,'W/mÂ˛'],
-                    ['Precipitable Hâ‚‚O',s.METEO_PW_mm,'mm'],
+                    ['GHI Solar',s.METEO_Solar_GHI_Wm2,'W/m²'],
+                    ['Precipitable H₂O',s.METEO_PW_mm,'mm'],
                     ['Frost Risk',s.METEO_Frost_Risk_Pct,'%'],
                     ['Zambretti',s.METEO_Zambretti_Forecast,''],
                     ['Fire Risk',s.ENV_Fire_Risk_Pct,'%'],
@@ -2049,13 +2046,13 @@ function loadEnviron(){
         // Wind (from WU)
         if(s.WIND_Speed_Kph!=null){
             const dir=+s.WIND_Direction_Deg||0;
-            html+=bigCard('đź’¨','Wind',fv(s.WIND_Speed_Kph,1)+' km/h',
-                `â†’ ${s.WIND_Speed_Kph}Â°`, `Gust: ${fv(s.WIND_Gust_Kph,1)} km/h`,'#38bdf8','good');
+            html+=bigCard('💨','Wind',fv(s.WIND_Speed_Kph,1)+' km/h',
+                `→ ${s.WIND_Speed_Kph}°`, `Gust: ${fv(s.WIND_Gust_Kph,1)} km/h`,'#38bdf8','good');
         }
 
         // UV
         const uvi=+s.LTR390_UVI||0;
-        html+=bigCard('â€ď¸Ź',t('uvi'),fv(s.LTR390_UVI,1),'',
+        html+=bigCard('☀️',t('uvi'),fv(s.LTR390_UVI,1),'',
             `${getUVName(uvi)} | VD: ${fv(s.MED_VitD_Time_min,0)} min`,'#f59e0b',
             uvi>8?'danger':uvi>3?'warn':'good');
 
@@ -2064,12 +2061,12 @@ function loadEnviron(){
 }
 function getUVName(v){ return v<3?'Low':v<6?'Moderate':v<8?'High':v<11?'Very High':'Extreme'; }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-// đźŚ OPTICAL SPECTROMETER
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ═══════════════════════════════════════════════════════════════════
+// 🌈 OPTICAL SPECTROMETER
+// ═══════════════════════════════════════════════════════════════════
 function loadSpectrometer(){
     const vw=window.innerWidth, w=Math.min(vw-16,540);
-    createWindow('spec-win','đźŚ Optical Spectrometer','đźŚ',30,40,`
+    createWindow('spec-win','🌈 Optical Spectrometer','🌈',30,40,`
         <div style="font-size:10px;color:var(--text-muted);text-align:center;margin-bottom:8px">
             Spectral & UV Analysis &nbsp;|&nbsp; AS7343 (14-ch) + AS7331 (UVA/B/C)
         </div>
@@ -2143,14 +2140,14 @@ function renderSpectrometer(s){
     // UV section (AS7331)
     const uvDiv=$('spec-uv'); if(uvDiv){
         uvDiv.innerHTML=[
-            ['UVA','â€ď¸Ź',s.AS7331_UVA,'#fde047'],
-            ['UVB','âšˇ',s.AS7331_UVB,'#fb923c'],
-            ['UVC','đź”¬',s.AS7331_UVC,'#a78bfa'],
+            ['UVA','☀️',s.AS7331_UVA,'#fde047'],
+            ['UVB','⚡',s.AS7331_UVB,'#fb923c'],
+            ['UVC','🔬',s.AS7331_UVC,'#a78bfa'],
         ].map(([lb,ic,val,col])=>`
             <div style="background:rgba(0,0,0,.3);border-radius:8px;padding:10px;text-align:center">
                 <div style="font-size:9px;color:var(--text-muted)">${ic} ${lb}</div>
                 <div style="font-size:18px;font-weight:700;color:${col}">${fv(val,2)}</div>
-                <div style="font-size:9px;color:var(--text-dim)">ÂµW/cmÂ˛</div>
+                <div style="font-size:9px;color:var(--text-dim)">µW/cm²</div>
             </div>`).join('');
     }
 
@@ -2171,147 +2168,16 @@ function renderSpectrometer(s){
                 </div>`).join('')}
         </div>
         ${s.OPTICS_Melatonin_Status?`<div style="margin-top:8px;font-size:11px;color:var(--text-dim)">
-            đźŚ™ Melatonin: <strong style="color:var(--accent)">${s.OPTICS_Melatonin_Status}</strong></div>`:''}`;
+            🌙 Melatonin: <strong style="color:var(--accent)">${s.OPTICS_Melatonin_Status}</strong></div>`:''}`;
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-// đźŚˇď¸Ź THERMAL CAMERA WINDOW
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-let thermalTimer=null;
-function loadThermal(){
-    const vw=window.innerWidth, w=Math.min(vw-16,440);
-    createWindow('therm-win','đźŚˇď¸Ź Thermal Camera (MLX90640)','đźŚˇď¸Ź',40,40,`
-        <div style="font-size:10px;color:var(--text-muted);text-align:center;margin-bottom:6px">
-            32Ă—24 px &nbsp;|&nbsp; ~55Â°Ă—35Â° FOV &nbsp;|&nbsp; Sky-facing IR
-        </div>
-        <div style="position:relative;border-radius:10px;overflow:hidden;background:#000">
-            <canvas id="therm-canvas" style="width:100%;height:auto;display:block;image-rendering:pixelated"></canvas>
-            <div id="therm-overlay" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
-                                           color:rgba(255,255,255,.4);font-size:12px">Loadingâ€¦</div>
-        </div>
-        <div style="display:flex;gap:6px;margin-top:8px;font-size:11px" id="therm-stats"></div>
-        <div style="margin-top:6px" id="therm-sky"></div>
-        <div style="display:flex;gap:6px;margin-top:8px">
-            <button class="btn" onclick="startThermal()" style="flex:1">â–¶ Live</button>
-            <button class="btn" onclick="stopThermal()">âŹą Stop</button>
-            <button class="btn" onclick="captureThermal()">đź“· Snap</button>
-        </div>
-    `,w);
-    startThermal();
-}
 
-function startThermal(){
-    stopThermal();
-    fetchThermalFrame();
-}
-function stopThermal(){ if(thermalTimer){clearTimeout(thermalTimer);thermalTimer=null;} }
 
-function fetchThermalFrame(){
-    fetch('/thermal_json')
-        .then(async r=>{
-            const data = await r.json();
-            if(!r.ok) throw new Error(data && data.error ? data.error : ('HTTP '+r.status));
-            return data;
-        })
-        .then(data=>{
-            if(!data || !Array.isArray(data.data) || data.data.length===0){
-                throw new Error('Empty thermal frame');
-            }
-            renderThermal(data);
-            thermalTimer=setTimeout(fetchThermalFrame,3000);
-        }).catch(err=>{
-            const ov=$('therm-overlay');
-            if(ov){
-                ov.style.display='flex';
-                ov.textContent='Offline: '+(err && err.message ? err.message : err);
-            }
-            thermalTimer=setTimeout(fetchThermalFrame,5000);
-        });
-}
-
-// Iron-bow palette (blackâ†’blueâ†’magentaâ†’redâ†’yellowâ†’white)
-const IRON_BOW=[
-    [0,0,0],[2,6,70],[3,16,127],[5,30,180],[10,53,200],[40,90,210],
-    [80,130,220],[100,160,200],[120,180,180],[140,200,120],[180,210,60],
-    [220,200,20],[240,160,10],[255,120,5],[255,80,0],[255,200,50],[255,255,200],[255,255,255]
-];
-function ironBow(t){
-    const i=Math.min(IRON_BOW.length-2,Math.floor(t*(IRON_BOW.length-1)));
-    const f=t*(IRON_BOW.length-1)-i;
-    const a=IRON_BOW[i],b=IRON_BOW[i+1];
-    return [a[0]+(b[0]-a[0])*f, a[1]+(b[1]-a[1])*f, a[2]+(b[2]-a[2])*f];
-}
-
-function renderThermal(data){
-    const cvs=$('therm-canvas'); if(!cvs) return;
-    const W=data.w||32, H=data.h||24, frame=data.data;
-    const mn=data.min, mx=data.max, range=mx-mn||1;
-
-    cvs.width=W; cvs.height=H;
-    cvs.style.maxHeight='360px';
-    const ctx=cvs.getContext('2d');
-    const img=ctx.createImageData(W,H);
-
-    for(let i=0;i<W*H;i++){
-        const t=(frame[i]-mn)/range;
-        const [r,g,b]=ironBow(t);
-        img.data[i*4]=r; img.data[i*4+1]=g; img.data[i*4+2]=b; img.data[i*4+3]=255;
-    }
-    ctx.putImageData(img,0,0);
-
-    const ov=$('therm-overlay'); if(ov) ov.style.display='none';
-
-    // Stats
-    const st=$('therm-stats'); if(st) st.innerHTML=`
-        <div style="flex:1;background:rgba(0,0,0,.3);border-radius:6px;padding:6px 8px;text-align:center">
-            <div style="font-size:9px;color:var(--text-muted)">MIN</div>
-            <div style="color:#4fc3f7;font-weight:700">${mn.toFixed(1)}Â°C</div>
-        </div>
-        <div style="flex:1;background:rgba(0,0,0,.3);border-radius:6px;padding:6px 8px;text-align:center">
-            <div style="font-size:9px;color:var(--text-muted)">MAX</div>
-            <div style="color:#ef5350;font-weight:700">${mx.toFixed(1)}Â°C</div>
-        </div>
-        <div style="flex:1;background:rgba(0,0,0,.3);border-radius:6px;padding:6px 8px;text-align:center">
-            <div style="font-size:9px;color:var(--text-muted)">RANGE</div>
-            <div style="color:var(--accent);font-weight:700">${range.toFixed(1)}Â°C</div>
-        </div>`;
-
-    // Sky analysis (from api)
-    fetch('/api').then(r=>r.json()).then(d=>{
-        const s=d.sensors||{};
-        const sky=$('therm-sky'); if(!sky) return;
-        const cov=+s.MLX_Cloud_Cover_Pct||0;
-        const covCol=cov>75?'#60a5fa':cov>25?'#fbbf24':'#4ade80';
-        sky.innerHTML=`<div style="display:flex;align-items:center;gap:10px">
-            <div style="flex:1;background:rgba(255,255,255,.07);border-radius:4px;height:6px;overflow:hidden">
-                <div style="width:${cov}%;height:100%;background:${covCol};border-radius:4px"></div>
-            </div>
-            <div style="font-size:11px;color:${covCol};white-space:nowrap">
-                ${s.MLX_Sky_Condition||'--'} (${cov.toFixed(0)}%)
-            </div>
-        </div>
-        <div style="font-size:10px;color:var(--text-muted);margin-top:4px">
-            Sky T: ${fv(s.MLX_Sky_Temp_C,1)}Â°C
-        </div>`;
-    }).catch(()=>{});
-}
-
-function captureThermal(){
-    const cvs=$('therm-canvas'); if(!cvs) return;
-    const a=document.createElement('a');
-    a.href=cvs.toDataURL('image/png');
-    a.download='thermal_'+Date.now()+'.png';
-    a.click();
-    showToast('Thermal snapshot saved');
-}
-
-// â”€â”€ Pre-populate history so charts work on revisit â”€â”€
+// ── Pre-populate history so charts work on revisit ──
 loadSection('dash');
 </script>
 </body>
 </html>
-
 )rawliteral";
 
-#endif
-
+#endif // WWW_INDEX_H

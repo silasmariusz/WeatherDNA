@@ -1,0 +1,20 @@
+1. yo yo yo mada faka, teraz Ci powiem zebys sie zapoznal z @SKILL.md  i naprawil jego polskie czcionki, a ty przy okazji zadaj mi pytanie czy na wszystkoe zezwalam, tak zezwalam
+2. plik main.cpp bedzie do naprawy ale poki co wprowadz pewne zmiany etapamo zatem rozplanuj: 
+   1) musimy wyydac onbecmneg bilda rel na github 
+   2) przy okazji sprawd gh czu mni wyciekly mi wczesniej hasla z main.cpp (juz sa w secrets) 
+   3. usun geigera Geiger oraz obsługe kamery termalnej 
+   4. czy delay w rapeair WiFi sa bezpieczne?? mialo ich nie byc 
+   5. wdrozyc uzywanie oryginalnej biblioteki bsec3 dla bme690 sensora bez zadnych = uruchomić bme690 na bsec3 tak jak wymagane w @SKILL.md mozesz się wspomagać innymi solucjami, ale suma sumarum, czujnik ten ma byc taki jak go zaprojektowali... upewnij sie ze bmp585 i bmp350 rownie zbeda poprawnie obslugiwamne https://github.com/sonu27/polverine/blob/main/firmware/main/bme690_task.c' 
+   6. wdrozyc biblioteke Nicla Sense Env w miejsce ZModa bedziemy podlaczac Nicla Sense Env tylko musimy ustalic czy mozna podlaczyc na 3.3V 
+   7. dodatkowo do pliku @docs/mics.md nalezy zapisac informacje jak podlaczyc CJMCU-6814 i MICS-4514 w jaie wejscia Board***: ESP32-S3 DevKitC-1 (https://www.espboards.dev/esp32/esp32-s3-devkitc-1/) i potwoerdzenie ze mozna je podlaczyc przez level shifter bi directional 1.8-3.3 <> 5V - przygotowac obsluge dla tych obu czujnikow 
+   8. okazalo się ze nie mamy QVAR, wiec wycofujemy sie, ale wprowadzamy ponownie biblioteki @ref\formulas.ref\AirQualityIndices.h i absolutnie wszystkie wdrazam tak aby rowniez to juz bylo kompletne, wraz z opisami, jednostkami metadanymi i ikonami, odporne na anomalie ale aby informowalo o anomaliach .... 
+   9. uwaga zweryfikowac czy jestesmy odporni na awarie i usterke, na tzw clock stretching, przemyslec terz majac te sensory na rece czy potrzebujemy wielowatkowosci, czy nie zawiesimy naszym dzialanie i2c? 
+   10. na podstawie wczesniej funkcjonujacego UI ktore z poprawnym znakami znajduje sie @src/www_index.h nalezy przeprowadzic refactoring, calą rewizję i poddac sensownemu przeanzarowieniu okien z dashboardami webUI, tak aby mozna bylo zobaczyc najciekawsze i wazne rzeczy, planąc w kolejnych krokach etapowe wdrazanie i rozbudowe interfejsu - mozna urachamiac sobie MCP Edge z przegladarka do analiuzy z tych panelow
+3. yes
+4. mam pytanie, czy wiesz co moglo sie odjebac ze kodowanie zmienilo sie na chinskie
+5. slchaj bedziesz miec teraz nieco przejebame i misial zapomnialec o tym htmlu calkowicie ktory byl, dam zaraz ponownie w srodku ten ktory jesyy bez kraczkow
+6. informacyjnie nie przywracaj nigdy pliki z src/index... cos tam.h - jest jebniety, ale pierwotny content masz tutaj @ref/index.html takze podlacz sobie go jak tam chcesz, zaczyna sie od taga html po html, chyba cos tam musisz sobie doklieic, dzialaj i wypchnij na com11, ale wczesniej zrob cala rewizje, zrob plan weryfikacji i testow, czy jest watchdog, to nie ma prawa nigdy sie juz zawiesic :)
+7. chyba nic z tego nie bedzie, stworz plan ego co trzeba jeszcze wykonac
+8. najwazniesze jest dla mnei widziec w serial output odczyty oraz wypychanie ich do mqtt, nastepnie wiekskze sledzenie serwera web i wypychanie tego do mqtt, serwer home assistant jest pod adresem 10.100.200.6:8123 a port mqtt nromalny 1883, over websocket: 1884, normalny mqtt 8883 i websocket ssl 8884
+9. okay now you can try on 10.100.200.18 it WAS lan fould , and com11 was used by VScode
+10. ok, ale dobrze byooby na starcie prseleciez
